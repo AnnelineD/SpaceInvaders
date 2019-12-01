@@ -9,13 +9,13 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
 
     Player p;
-    p.coordy = 10;
+    p.coordy = 560;
     p.coordx = 200;
 
     Model m;
     m.player = &p;
 
-    View v(400, 400);
+    View v(800, 600);
 
     v.model = &m;
 

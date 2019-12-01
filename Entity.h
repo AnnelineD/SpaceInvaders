@@ -24,6 +24,11 @@ public:
 
 };
 
+class Bullet : public Entity{
+public:
+    Bullet();
+};
+
 /*
 class Enemy : private Entity{
 public:

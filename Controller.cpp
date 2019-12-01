@@ -14,11 +14,15 @@ void Controller::update(float dt, sf::Event &event) {
 
         switch (event.key.code){
             case sf::Keyboard::Left:
-                view->model->player->move(-10, 0);
+                if (view->model->player->coordx > 10) {
+                    view->model->player->move(-10, 0);
+                }
                 break;
 
             case sf::Keyboard::Right:
-                view->model->player->move(10, 0);
+                if (view->model->player->coordx < (float)view->window.getSize().x - 20){
+                    view->model->player->move(10, 0);
+                }
                 break;
         }
 }
