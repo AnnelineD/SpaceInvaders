@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Entity.h"
 #include "View.h"
@@ -10,6 +11,15 @@
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("../david-bowie-life-on-mars.wav"))
+        std::cout << "Sound doesn't work" << std::endl;
+
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();
+
 
     Player p;
     p.coordy = 560;
@@ -46,11 +56,6 @@ int main() {
             delta_time = 1000*(end-start); //milli seconds
         }
     }
-
-
-
-
-
 
     return 0;
 }
