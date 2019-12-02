@@ -7,8 +7,9 @@
 
 
 class Entity {
-
 public:
+    Entity(float x, float y);
+
     float coordx;
     float coordy;
 
@@ -21,12 +22,11 @@ public:
 class Player : public Entity{
 public:
     Player();
-
 };
 
 class Bullet : public Entity{
 public:
-    Bullet();
+    Bullet(float x, float y);
 };
 
 /*

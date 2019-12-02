@@ -4,15 +4,11 @@
 
 #include "Entity.h"
 
-Player::Player() {
-    this->coordx = 0;
-    this->coordy = 0;
-}
+Entity::Entity(float x, float y): coordx(x), coordy(y) {}
 
-Bullet::Bullet() {
-    this->coordx = 0;
-    this->coordy = 0;
-}
+Player::Player(): Entity(0, 0) {}
+
+Bullet::Bullet(float x, float y): Entity(x, y) {}
 
 void Entity::move(float dx, float dy) {
     this->coordx += dx;

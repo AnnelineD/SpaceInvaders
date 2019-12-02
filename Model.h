@@ -6,14 +6,14 @@
 #define SPACEINVADERS_MODEL_H
 
 #include "Entity.h"
-#include <vector>
+#include <list>
 
 
 class Model {
 public:
 
     Player* player;
-    std::vector<Bullet> bullets;
+    std::list<Bullet*> p_bullets;
 
 };
 
