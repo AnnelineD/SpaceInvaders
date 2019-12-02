@@ -1,8 +1,11 @@
 #include <iostream>
-#include "Entity.h"
+#include <chrono>
 #include <SFML/Graphics.hpp>
+
+#include "Entity.h"
 #include "View.h"
 #include "Controller.h"
+
 
 
 int main() {
@@ -23,24 +26,27 @@ int main() {
 
     c.view = &v;
 
-
-
+    auto delta_time = std::chrono::duration<double>(2);
 
     while (v.window.isOpen()) {
         sf::Event event;
+
         while (v.window.pollEvent(event))
         {
-            c.update(10, event);
+            auto start = std::chrono::system_clock::now();
+            c.update(delta_time.count(), event);
 
             if (event.type == sf::Event::Closed)
                 v.window.close();
 
             else{
-
                 v.render();
             }
+            auto end = std::chrono::system_clock::now();
+            delta_time = 1000*(end-start); //milli seconds
         }
     }
+
 
 
 
