@@ -15,6 +15,7 @@ int main() {
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile("../david-bowie-life-on-mars.wav"))
         std::cout << "Sound doesn't work" << std::endl;
+    //TODO make a real exception
 
     sf::Sound sound;
     sound.setBuffer(buffer);
