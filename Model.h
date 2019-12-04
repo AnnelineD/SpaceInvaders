@@ -11,7 +11,6 @@
 
 class Model {
 public:
-
     Player* player;
     std::list<Bullet*> p_bullets;
 

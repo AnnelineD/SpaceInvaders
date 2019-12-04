@@ -2,6 +2,7 @@
 #include <chrono>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <thread>
 
 #include "Entity.h"
 #include "View.h"
@@ -19,8 +20,8 @@ int main() {
 
     sf::Sound sound;
     sound.setBuffer(buffer);
-    sound.play();
-
+    sound.setVolume(50);
+    //sound.play();
 
     Player p;
     p.coordy = 560;
@@ -40,23 +41,32 @@ int main() {
     auto delta_time = std::chrono::duration<double>(2);
 
     while (v.window.isOpen()) {
-        sf::Event event;
 
-        while (v.window.pollEvent(event))
+        auto start = std::chrono::system_clock::now();
+        c.update(delta_time.count());
+
+        v.render();
+
+        sf::Event event;
+        //handle event
+        while (((start - std::chrono::system_clock::now()).count() * 1000 < 10) && v.window.pollEvent(event))
         {
-            auto start = std::chrono::system_clock::now();
-            c.update(delta_time.count(), event);
 
             if (event.type == sf::Event::Closed)
                 v.window.close();
+            else
+                c.handleEvent(delta_time.count(), event);
 
-            else{
-                v.render();
-            }
-            auto end = std::chrono::system_clock::now();
-            delta_time = 1000*(end-start); //milli seconds
         }
-    }
 
+        auto end = std::chrono::system_clock::now();
+        delta_time = 1000*(end-start); //milli seconds
+
+        //float i = 10 - delta_time.count();
+
+        //std::cout << i << std::endl;
+        //std::this_thread::sleep_for(std::chrono::milliseconds((int)i));
+
+    }
     return 0;
 }
