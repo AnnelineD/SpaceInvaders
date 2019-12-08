@@ -28,8 +28,6 @@ void Controller::handleEvent(float dt, sf::Event &event) {
                 view->model->p_bullets.push_back(new Bullet(view->model->player->coordx, view->model->player->coordy));
                 break;
         }
-
-
 }
 
 void Controller::update(float dt) {
@@ -44,4 +42,29 @@ void Controller::update(float dt) {
         }
     }
 
+    //enemy movement
+    if(view->model->enemies.empty()){
+        return;
+    }
+    bool change_direction = view->model->enemies.back()->coordx > view->window.getSize().x || view->model->enemies.front()->coordx < 0;
+
+    for (auto e:view->model->enemies){
+        if(change_direction){
+            e -> changeDirection();
+        }
+        e -> move(dt);
+    }
+
+    auto enemies_ = view->model->enemies;
+    p_bullets_ = view->model->p_bullets;
+
+    //collision detection
+    for (auto e:enemies_){
+        for (auto b : p_bullets_){
+            if(e->collidesWith(*b)){
+                view->model->enemies.remove(e);
+                view->model->p_bullets.remove(b);
+            }
+        }
+    }
 }

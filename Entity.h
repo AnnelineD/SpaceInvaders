@@ -10,12 +10,20 @@ class Entity {
 public:
     Entity(float x, float y);
 
-    float coordx;
-    float coordy;
-
+    float coordx, coordy;
     unsigned int health;
+    unsigned int width, height;
 
     void move(float dx, float dy);
+    void move(float dt);
+    void setSpeed(float vx, float vy);
+    void changeDirection();
+    float getSpeedX();
+
+    bool collidesWith(const Entity& e) const;
+
+private:
+    float x_speed, y_speed;
 };
 
 
@@ -29,14 +37,10 @@ public:
     Bullet(float x, float y);
 };
 
-/*
-class Enemy : private Entity{
+class Enemy : public Entity{
 public:
-    Enemy();
-
-    void move() override;
+    Enemy(float x, float y);
 };
-*/
 
 
 

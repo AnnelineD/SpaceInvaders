@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Model.h"
+#include <memory>
 
 
 class View {
@@ -15,8 +16,9 @@ public:
     View(int width, int height);
     void render();
 
-
     sf::RenderWindow window;
+    sf::Texture texture;
+
     Model* model;
 };
 

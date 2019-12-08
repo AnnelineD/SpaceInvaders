@@ -30,6 +30,13 @@ int main() {
     Model m;
     m.player = &p;
 
+    for (int i = 0; i < 6; i++){
+        for (int j = 0; j < 3; j++){
+            m.enemies.push_back(new Enemy(i * 50, j * 50));
+            m.enemies.back()->setSpeed(.1, .01);
+        }
+    }
+
     View v(800, 600);
 
     v.model = &m;
@@ -66,7 +73,7 @@ int main() {
 
         //std::cout << i << std::endl;
         //std::this_thread::sleep_for(std::chrono::milliseconds((int)i));
-
     }
+
     return 0;
 }

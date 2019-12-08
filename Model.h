@@ -7,13 +7,15 @@
 
 #include "Entity.h"
 #include <list>
+#include <vector>
+#include <memory>
 
 
 class Model {
 public:
     Player* player;
     std::list<Bullet*> p_bullets;
-
+    std::list<Enemy*> enemies;
 };
 
 
