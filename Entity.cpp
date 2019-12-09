@@ -38,12 +38,8 @@ void Entity::changeDirection() {
     this->x_speed = -this->x_speed;
 }
 
-float Entity::getSpeedX(){
-    return x_speed;
-}
-
 bool Entity::collidesWith(const Entity &e) const {
-    return(this->coordx < e.coordx + e.width &&
+    return (this->coordx < e.coordx + e.width &&
        this->coordx + this->width > e.coordx &&
        this->coordy < e.coordy + e.height &&
        this->coordy + this->height > e.coordy);

@@ -5,6 +5,8 @@
 #ifndef SPACEINVADERS_ENTITY_H
 #define SPACEINVADERS_ENTITY_H
 
+#include <chrono>
+
 
 class Entity {
 public:
@@ -12,13 +14,13 @@ public:
 
     float coordx, coordy;
     unsigned int health;
-    unsigned int width, height;
+    float width, height;
+    //std::chrono::time_point last_shot;
 
     void move(float dx, float dy);
     void move(float dt);
     void setSpeed(float vx, float vy);
     void changeDirection();
-    float getSpeedX();
 
     bool collidesWith(const Entity& e) const;
 

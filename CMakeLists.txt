@@ -3,7 +3,7 @@ project(SpaceInvaders)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(SpaceInvaders main.cpp Entity.cpp Entity.h SpaceInvadersGame.cpp SpaceInvadersGame.h View.cpp View.h Controller.cpp Controller.h Model.cpp Model.h)
+add_executable(SpaceInvaders main.cpp Entity.cpp Entity.h SpaceInvadersGame.cpp SpaceInvadersGame.h View.cpp View.h Controller.cpp Controller.h Model.cpp Model.h Stopwatch.cpp Stopwatch.h)
 
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})

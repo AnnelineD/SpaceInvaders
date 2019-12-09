@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "View.h"
 #include "Controller.h"
+#include "Stopwatch.h"
 
 
 
@@ -21,7 +22,7 @@ int main() {
     sf::Sound sound;
     sound.setBuffer(buffer);
     sound.setVolume(50);
-    //sound.play();
+    sound.play();
 
     Player p;
     p.coordy = 560;
@@ -33,7 +34,7 @@ int main() {
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 3; j++){
             m.enemies.push_back(new Enemy(i * 50, j * 50));
-            m.enemies.back()->setSpeed(.1, .01);
+            m.enemies.back()->setSpeed(.5, .05);
         }
     }
 
@@ -45,34 +46,27 @@ int main() {
 
     c.view = &v;
 
-    auto delta_time = std::chrono::duration<double>(2);
+    float delta_time = 2;
 
     while (v.window.isOpen()) {
 
-        auto start = std::chrono::system_clock::now();
-        c.update(delta_time.count());
+        Stopwatch::Instance()->restart();
+
+        //c.update(delta_time.count());
+        c.update(delta_time);
 
         v.render();
 
         sf::Event event;
         //handle event
-        while (((start - std::chrono::system_clock::now()).count() * 1000 < 10) && v.window.pollEvent(event))
-        {
+        while ((Stopwatch::Instance()->elapsed() < 10) && v.window.pollEvent(event)){
 
             if (event.type == sf::Event::Closed)
                 v.window.close();
             else
-                c.handleEvent(delta_time.count(), event);
-
+                c.handleEvent(delta_time, event);
         }
-
-        auto end = std::chrono::system_clock::now();
-        delta_time = 1000*(end-start); //milli seconds
-
-        //float i = 10 - delta_time.count();
-
-        //std::cout << i << std::endl;
-        //std::this_thread::sleep_for(std::chrono::milliseconds((int)i));
+        delta_time = (Stopwatch::Instance()->elapsed()); //milli seconds
     }
 
     return 0;
