@@ -25,7 +25,15 @@ void Stopwatch::restart() {
  * check how much time is passed since restart
  * @return passed time in milli seconds
  */
-float Stopwatch::elapsed() {
+double Stopwatch::elapsed() {
     //TODO check if start time is defined (exception)
-    return (std::chrono::system_clock::now() - start_time).count()/(10e+06); //in milli seconds
+    return (std::chrono::system_clock::now() - start_time).count()/(1e6); //in milli seconds
+}
+
+double Stopwatch::elapsed(std::chrono::time_point<std::chrono::system_clock> begin) {
+    return (std::chrono::system_clock::now() - begin).count()/(1e6);
+}
+
+std::chrono::time_point<std::chrono::system_clock> Stopwatch::now() {
+    return std::chrono::system_clock::now();
 }

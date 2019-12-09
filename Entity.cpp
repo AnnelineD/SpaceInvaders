@@ -26,7 +26,6 @@ void Entity::move(float dx, float dy) {
 void Entity::move(float dt){
     this->coordx += dt*this->x_speed;
     this->coordy += dt*this->y_speed;
-
 }
 
 void Entity::setSpeed(float vx, float vy) {

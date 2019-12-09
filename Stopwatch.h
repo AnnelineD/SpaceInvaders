@@ -13,8 +13,9 @@ public:
     static Stopwatch* Instance();
 
     void restart();
-    float elapsed(); //in milli seconds
-
+    double elapsed(); //in milli seconds
+    double elapsed(std::chrono::time_point<std::chrono::system_clock> begin);
+    std::chrono::time_point<std::chrono::system_clock> now();
     std::chrono::time_point<std::chrono::system_clock> start_time;
 
 private:

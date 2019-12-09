@@ -34,7 +34,7 @@ int main() {
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 3; j++){
             m.enemies.push_back(new Enemy(i * 50, j * 50));
-            m.enemies.back()->setSpeed(.5, .05);
+            m.enemies.back()->setSpeed(.1, .01);
         }
     }
 
@@ -46,7 +46,7 @@ int main() {
 
     c.view = &v;
 
-    float delta_time = 2;
+    double delta_time = 2;
 
     while (v.window.isOpen()) {
 

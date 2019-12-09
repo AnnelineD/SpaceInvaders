@@ -15,7 +15,7 @@ public:
     float coordx, coordy;
     unsigned int health;
     float width, height;
-    //std::chrono::time_point last_shot;
+    std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now();
 
     void move(float dx, float dy);
     void move(float dt);
@@ -43,8 +43,6 @@ class Enemy : public Entity{
 public:
     Enemy(float x, float y);
 };
-
-
 
 
 

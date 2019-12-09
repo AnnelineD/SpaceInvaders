@@ -12,8 +12,8 @@
 class Controller {
 public:
 
-    void handleEvent(float dt, sf::Event &event);
-    void update(float dt);
+    void handleEvent(double dt, sf::Event &event);
+    void update(double dt);
 
     View* view;
 };

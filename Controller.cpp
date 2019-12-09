@@ -3,9 +3,10 @@
 //
 
 #include "Controller.h"
+#include "Stopwatch.h"
 #include <SFML/Graphics.hpp>
 
-void Controller::handleEvent(float dt, sf::Event &event) {
+void Controller::handleEvent(double dt, sf::Event &event) {
 
     //TODO Enemys schieten
     //TODO player schiet
@@ -14,30 +15,33 @@ void Controller::handleEvent(float dt, sf::Event &event) {
         switch (event.key.code){
             case sf::Keyboard::Left:
                 if (view->model->player->coordx > 10) {
-                    view->model->player->move(-80*dt, 0);
+                    view->model->player->move(-50*dt, 0);
                 }
                 break;
             case sf::Keyboard::Right:
                 //check that player doesn't go out of view before moving
                 if (view->model->player->coordx < (float)view->window.getSize().x - 20){
-                    view->model->player->move(80*dt, 0);
+                    view->model->player->move(50*dt, 0);
                 }
                 break;
             case sf::Keyboard::Up:
             case sf::Keyboard::Space:
                 //TODO check time between shoots so that player does't have a machine gun
-                view->model->p_bullets.push_back(new Bullet(view->model->player->coordx, view->model->player->coordy));
+                if(Stopwatch::Instance()->elapsed(view->model->player->last_shot) > 600){
+                    view->model->p_bullets.push_back(new Bullet(view->model->player->coordx, view->model->player->coordy));
+                    view->model->player->last_shot = Stopwatch::Instance()->now();
+                }
                 break;
         }
 }
 
-void Controller::update(float dt) {
+void Controller::update(double dt) {
 
     //bullet update
     auto p_bullets_ = view->model->p_bullets;
 
     for (Bullet* b:p_bullets_){
-        b->move(0, -10*dt);
+        b->move(0, -1*dt);
         if(b->coordy < 0){
             view->model->p_bullets.remove(b);
         }
