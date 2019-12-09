@@ -13,7 +13,6 @@ public:
     Entity(float x, float y);
 
     float coordx, coordy;
-    unsigned int health;
     float width, height;
     std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now();
 
@@ -32,6 +31,7 @@ private:
 class Player : public Entity{
 public:
     Player();
+    unsigned int health = 3;
 };
 
 class Bullet : public Entity{

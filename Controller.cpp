@@ -38,11 +38,12 @@ void Controller::handleEvent(double dt, sf::Event &event) {
 
 void Controller::update(double dt) {
 
-    //bullet update
+    //player bullet update
     auto p_bullets_ = view->model->p_bullets;
 
     for (Bullet* b:p_bullets_){
         b->move(0, -1*dt);
+        //bullet is removed when it is out of the screen
         if(b->coordy < 0){
             view->model->p_bullets.remove(b);
         }
@@ -53,15 +54,19 @@ void Controller::update(double dt) {
 
     for (Bullet* b:e_bullets_){
         b->move(0, .7*dt);
-        if(b->coordy < 0){
+        //bullet is removed when it is out of the screen
+        if(b->coordy > view->window.getSize().y){
             view->model->e_bullets.remove(b);
         }
     }
 
     //enemy movement
+    //only do the enemy movement and shoot when there are enemies
     if(view->model->enemies.empty()){
         return;
     }
+
+    //the "enemy block" changes direction when the most left of right enemies hit the side of the screen
     bool change_direction = view->model->enemies.back()->coordx > view->window.getSize().x || view->model->enemies.front()->coordx < 0;
 
     for (auto e:view->model->enemies){
@@ -83,16 +88,34 @@ void Controller::update(double dt) {
         }
     }
 
+    //collision detection
     auto enemies_ = view->model->enemies;
     p_bullets_ = view->model->p_bullets;
 
-    //collision detection
     for (auto e:enemies_){
         for (auto b : p_bullets_){
+            //check whether a bullet hits an enemy
             if(e->collidesWith(*b)){
+                double x = e->coordx;
                 view->model->enemies.remove(e);
+                //reverse iteration
+                for (auto it = view->model->enemies.rbegin(); it != view->model->enemies.rend(); ++it){
+                    if((*it)->coordx == x){
+                        (*it)->frontline = true;
+                        break;
+                    }
+                }
                 view->model->p_bullets.remove(b);
             }
+        }
+    }
+
+    e_bullets_ = view->model->e_bullets;
+
+    for (auto b : e_bullets_){
+        if(view->model->player->collidesWith(*b)){
+            view->model->player->health --;
+            view->model->e_bullets.remove(b);
         }
     }
 }
