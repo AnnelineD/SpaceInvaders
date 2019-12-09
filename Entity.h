@@ -42,8 +42,8 @@ public:
 class Enemy : public Entity{
 public:
     Enemy(float x, float y);
+    bool frontline = false;
 };
-
 
 
 #endif //SPACEINVADERS_ENTITY_H

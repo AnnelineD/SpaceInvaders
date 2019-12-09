@@ -22,7 +22,7 @@ int main() {
     sf::Sound sound;
     sound.setBuffer(buffer);
     sound.setVolume(50);
-    sound.play();
+    //sound.play();
 
     Player p;
     p.coordy = 560;
@@ -36,6 +36,7 @@ int main() {
             m.enemies.push_back(new Enemy(i * 50, j * 50));
             m.enemies.back()->setSpeed(.1, .01);
         }
+        m.enemies.back()->frontline = true;
     }
 
     View v(800, 600);

@@ -16,6 +16,7 @@ public:
     Player* player;
     std::list<Bullet*> p_bullets;
     std::list<Enemy*> enemies;
+    std::list<Bullet*> e_bullets;
 };
 
 

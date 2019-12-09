@@ -26,29 +26,33 @@ void View::render() {
     //player
     sf::RectangleShape player(sf::Vector2f(20, 20));
     player.setFillColor(sf::Color::Green);
+    player.setPosition(this->model->player->coordx, this->model->player->coordy);
 
-
+    this->window.draw(player);
 
     //Bullets
     sf::RectangleShape bullet(sf::Vector2f(5, 10));
     bullet.setFillColor(sf::Color::White);
 
-    //Enemies
-    sf::RectangleShape enemy(sf::Vector2f(20, 20));
-    enemy.setFillColor(sf::Color::Blue);
-
-
-    player.setPosition(this->model->player->coordx, this->model->player->coordy);
-
-    this->window.draw(player);
     for(auto b: this->model->p_bullets){
         bullet.setPosition(b->coordx, b->coordy);
         this->window.draw(bullet);
     }
 
+    //Enemies
+    sf::RectangleShape enemy(sf::Vector2f(20, 20));
+    enemy.setFillColor(sf::Color::Blue);
+
     for(auto e: this->model->enemies){
             enemy.setPosition(e->coordx, e->coordy);
             this->window.draw(enemy);
     }
+
+    //enemy bullets
+    for(auto b: this->model->e_bullets){
+        bullet.setPosition(b->coordx, b->coordy);
+        this->window.draw(bullet);
+    }
+
     this->window.display();
 }
