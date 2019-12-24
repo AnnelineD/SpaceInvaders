@@ -6,7 +6,11 @@
 
 Entity::Entity(float x, float y): coordx(x), coordy(y) {}
 
-Player::Player(): Entity(0, 0) {}
+Player::Player(): Entity(0, 0) {
+    width = 32;
+    height = 32;
+    this->health = 1;
+}
 
 Bullet::Bullet(float x, float y): Entity(x, y) {
     width = 5;
@@ -14,18 +18,20 @@ Bullet::Bullet(float x, float y): Entity(x, y) {
 }
 
 Enemy::Enemy(float x, float y): Entity(x, y) {
-    width = 20;
-    height = 20;
+    width = 16;
+    height = 32;
 }
 
 void Entity::move(float dx, float dy) {
     this->coordx += dx;
     this->coordy += dy;
+    notify();
 }
 
 void Entity::move(float dt){
     this->coordx += dt*this->x_speed;
     this->coordy += dt*this->y_speed;
+    notify();
 }
 
 void Entity::setSpeed(float vx, float vy) {
@@ -42,4 +48,10 @@ bool Entity::collidesWith(const Entity &e) const {
        this->coordx + this->width > e.coordx &&
        this->coordy < e.coordy + e.height &&
        this->coordy + this->height > e.coordy);
+}
+
+bool Entity::setHealth(int i) {
+    this->health = i;
+    notify();
+    return (health >=1);
 }

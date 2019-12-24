@@ -6,22 +6,28 @@
 #define SPACEINVADERS_ENTITY_H
 
 #include <chrono>
+#include "Subject.h"
 
 
-class Entity {
+class Entity: public Subject {
 public:
+    Entity() = default;
     Entity(float x, float y);
 
     float coordx, coordy;
     float width, height;
     std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now();
+    int health = 1;
 
+    //TODO delete this function
     void move(float dx, float dy);
+
     void move(float dt);
     void setSpeed(float vx, float vy);
     void changeDirection();
+    bool setHealth(int i);
 
-    bool collidesWith(const Entity& e) const;
+    [[nodiscard]] bool collidesWith(const Entity& e) const;
 
 private:
     float x_speed, y_speed;
@@ -31,7 +37,6 @@ private:
 class Player : public Entity{
 public:
     Player();
-    unsigned int health = 3;
 };
 
 class Bullet : public Entity{

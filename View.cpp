@@ -5,54 +5,66 @@
 #include "View.h"
 #include <iostream>
 
-View::View() : window(sf::VideoMode(500, 500), "Protect your planet!"){}
-
 View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
-    if (!texture.loadFromFile("../mars_planeet.jpg")){}
+    if (!background_texture.loadFromFile("../mars_planeet.jpg")){}
+    if (!font.loadFromFile("../ScifiAdventure.otf")){}
 }
 
 void View::render() {
     this->window.clear();
-/*
-    //Mars
-    sf::CircleShape Mars(this->window.getSize().x, 100);
-    Mars.setFillColor(sf::Color::Red);
-    Mars.setPosition(0, (float)this->window.getSize().y/2);
-    this->window.draw(Mars);
-    */
 
-    window.draw(sf::Sprite(texture));
+    window.draw(sf::Sprite(background_texture));
 
-    //player
-    sf::RectangleShape player(sf::Vector2f(20, 20));
-    player.setFillColor(sf::Color::Green);
-    player.setPosition(this->model->player->coordx, this->model->player->coordy);
-
-    this->window.draw(player);
-
-    //Bullets
-    sf::RectangleShape bullet(sf::Vector2f(5, 10));
-    bullet.setFillColor(sf::Color::White);
-
-    for(auto b: this->model->p_bullets){
-        bullet.setPosition(b->coordx, b->coordy);
-        this->window.draw(bullet);
+    auto p_bullet_sprite_ = this->p_bullet_sprite;
+    for(const auto& b: p_bullet_sprite_) {
+        if (b->to_be_deleted) {
+            this->p_bullet_sprite.remove(b);
+        }
+        this->window.draw(b->sprite);
     }
 
-    //Enemies
-    sf::RectangleShape enemy(sf::Vector2f(20, 20));
-    enemy.setFillColor(sf::Color::Blue);
 
-    for(auto e: this->model->enemies){
-            enemy.setPosition(e->coordx, e->coordy);
-            this->window.draw(enemy);
+    auto e_bullet_sprite_ = this->e_bullet_sprite;
+    for(const auto& b: e_bullet_sprite_){
+        if(b->to_be_deleted){
+            this->e_bullet_sprite.remove(b);
+        }
+        this->window.draw(b->sprite);
     }
 
-    //enemy bullets
-    for(auto b: this->model->e_bullets){
-        bullet.setPosition(b->coordx, b->coordy);
-        this->window.draw(bullet);
+    std::list<std::shared_ptr<EnemySprite>> enemy_sprites_ = this->enemy_sprites;
+    for(const auto& e: enemy_sprites_){
+        if(e->to_be_deleted){
+            this->enemy_sprites.remove(e);
+        }
+        else{
+            this->window.draw(e->sprite);
+        }
     }
+
+    if (this->player_sprite->entity->health > 0) {
+        this->window.draw(this->player_sprite->sprite);
+
+    } else {
+        sf::Text text;
+        text.setFont(font);
+        text.setString("GAME OVER");
+
+        text.setCharacterSize(50);
+        text.setFillColor(sf::Color::Magenta);
+        text.setPosition(100, (float)this->window.getSize().y/2);
+        this->window.draw(text);
+    }
+
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString(std::to_string(this->player_sprite->entity->health));
+
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Magenta);
+    text.setPosition(20, 20);
+    this->window.draw(text);
 
     this->window.display();
 }

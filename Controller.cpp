@@ -15,107 +15,119 @@ void Controller::handleEvent(double dt, sf::Event &event) {
     //move player
         switch (event.key.code){
             case sf::Keyboard::Left:
-                if (view->model->player->coordx > 10) {
-                    view->model->player->move(-50*dt, 0);
+                if (model->player->coordx -50*dt > 10) {
+                    model->player->move(-50*dt, 0);
                 }
                 break;
             case sf::Keyboard::Right:
                 //check that player doesn't go out of view before moving
-                if (view->model->player->coordx < (float)view->window.getSize().x - 20){
-                    view->model->player->move(50*dt, 0);
+                if (model->player->coordx + 50*dt < (float)view->window.getSize().x - 20){
+                    model->player->move(dt);
                 }
                 break;
             case sf::Keyboard::Up:
             case sf::Keyboard::Space:
                 // check time between shoots so that player does't have a machine gun
-                if(Stopwatch::Instance()->elapsed(view->model->player->last_shot) > 400){
-                    view->model->p_bullets.push_back(new Bullet(view->model->player->coordx, view->model->player->coordy));
-                    view->model->player->last_shot = Stopwatch::Instance()->now();
+                if(Stopwatch::Instance()->elapsed(model->player->last_shot) > 400){
+                    model->p_bullets.push_back(std::make_shared<Bullet>(model->player->coordx, model->player->coordy));
+                    view->p_bullet_sprite.push_back(std::make_shared<BulletSprite>());
+                    view->p_bullet_sprite.back()->entity = model->p_bullets.back();
+                    model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
+
+                    model->player->last_shot = Stopwatch::Instance()->now();
                 }
                 break;
         }
 }
 
 void Controller::update(double dt) {
+    //player bullet render
+    auto p_bullets_ = model->p_bullets;
 
-    //player bullet update
-    auto p_bullets_ = view->model->p_bullets;
-
-    for (Bullet* b:p_bullets_){
+    for (auto b:p_bullets_){
         b->move(0, -1*dt);
         //bullet is removed when it is out of the screen
         if(b->coordy < 0){
-            view->model->p_bullets.remove(b);
+            b->setHealth(0);
+            model->p_bullets.remove(b);
         }
     }
 
-    //enemy bullet update
-    auto e_bullets_ = view->model->e_bullets;
+    //enemy bullet render
+    auto e_bullets_ = model->e_bullets;
 
-    for (Bullet* b:e_bullets_){
+    for (auto b:e_bullets_){
         b->move(0, .7*dt);
         //bullet is removed when it is out of the screen
         if(b->coordy > view->window.getSize().y){
-            view->model->e_bullets.remove(b);
+            b->setHealth(0);
+            model->e_bullets.remove(b);
         }
     }
 
     //enemy movement
     //only do the enemy movement and shoot when there are enemies
-    if(view->model->enemies.empty()){
+    if(model->enemies.empty()){
         return;
     }
 
     //the "enemy block" changes direction when the most left of right enemies hit the side of the screen
-    bool change_direction = view->model->enemies.back()->coordx > view->window.getSize().x || view->model->enemies.front()->coordx < 0;
+    bool change_direction = model->enemies.back()->coordx > view->window.getSize().x || model->enemies.front()->coordx < 0;
 
-    for (auto e:view->model->enemies){
+    for (auto& e:model->enemies){
         if(change_direction){
-            e -> changeDirection();
+            e->changeDirection();
         }
-        e -> move(dt);
+        e->move(dt);
     }
 
     //enemy shoot
     std::random_device rd;
     std::mt19937 mt(rd());
-    for(Enemy* e : view->model->enemies){
-        std::uniform_real_distribution<double> dist(0, 7000);
+    for(auto& e : model->enemies){
+        std::uniform_real_distribution<double> dist(0, 4000);
         //an enemy can't shoot twice in 0.4 seconds and has to be on the frontline
-        if(dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 4000 && e->frontline){
-                view->model->e_bullets.push_back(new Bullet(e->coordx, e->coordy));
+        if(dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 3000 && e->frontline){
+                model->e_bullets.push_back(std::make_shared<Bullet>(e->coordx, e->coordy));
+                view->e_bullet_sprite.push_back(std::make_shared<BulletSprite>());
+                view->e_bullet_sprite.back()->entity = model->e_bullets.back();
+                model->e_bullets.back()->addObserver(view->e_bullet_sprite.back());
+
                 e->last_shot = Stopwatch::Instance()->now();
         }
     }
 
     //collision detection
-    auto enemies_ = view->model->enemies;
-    p_bullets_ = view->model->p_bullets;
+    auto enemies_ = model->enemies;
+    p_bullets_ = model->p_bullets;
 
-    for (auto e:enemies_){
+    for (auto& e:enemies_){
         for (auto b : p_bullets_){
             //check whether a bullet hits an enemy
             if(e->collidesWith(*b)){
                 double x = e->coordx;
-                view->model->enemies.remove(e);
+                e->setHealth(0);
+                model->enemies.remove(e);
                 //reverse iteration
-                for (auto it = view->model->enemies.rbegin(); it != view->model->enemies.rend(); ++it){
+                for (auto it = model->enemies.rbegin(); it != model->enemies.rend(); ++it){
                     if((*it)->coordx == x){
                         (*it)->frontline = true;
                         break;
                     }
                 }
-                view->model->p_bullets.remove(b);
+                b->setHealth(0);
+                model->p_bullets.remove(b);
             }
         }
     }
 
-    e_bullets_ = view->model->e_bullets;
+    e_bullets_ = model->e_bullets;
 
-    for (auto b : e_bullets_){
-        if(view->model->player->collidesWith(*b)){
-            view->model->player->health --;
-            view->model->e_bullets.remove(b);
+    for (auto& b : e_bullets_){
+        if(model->player->collidesWith(*b)){
+            model->player->setHealth(model->player->health - 1);
+            b->setHealth(0);
+            model->e_bullets.remove(b);
         }
     }
 }

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <thread>
+#include <memory>
 
 #include "Entity.h"
 #include "View.h"
@@ -12,6 +13,8 @@
 
 
 int main() {
+
+
     std::cout << "Hello, World!" << std::endl;
 
     sf::SoundBuffer buffer;
@@ -24,7 +27,9 @@ int main() {
     sound.setVolume(50);
     //sound.play();
 
+    /*
     Player p;
+    p.setSpeed(50, 0);
     p.coordy = 560;
     p.coordx = 200;
 
@@ -41,6 +46,9 @@ int main() {
 
     View v(800, 600);
 
+    //std::shared_ptr<View> m_v = std::make_shared<View>(800, 600);
+    //m.addObserver(m_v);
+
     v.model = &m;
 
     Controller c;
@@ -53,7 +61,7 @@ int main() {
 
         Stopwatch::Instance()->restart();
 
-        //c.update(delta_time.count());
+        //c.render(delta_time.count());
         c.update(delta_time);
 
         v.render();
@@ -64,6 +72,56 @@ int main() {
 
             if (event.type == sf::Event::Closed)
                 v.window.close();
+            else
+                c.handleEvent(delta_time, event);
+        }
+        delta_time = (Stopwatch::Instance()->elapsed()); //milli seconds
+    }
+     */
+
+    auto v = std::make_shared<View>(800, 600);
+
+    std::shared_ptr<Player> p = std::make_shared<Player>();
+    p->setSpeed(50, 0);
+    p->coordy = 540;
+    p->coordx = 200;
+    p->addObserver(v->player_sprite);
+    v->player_sprite->setEntity(p);
+
+    auto m = std::make_shared<Model>();
+    m->player = p;
+
+
+    for (int i = 0; i < 6; i++){
+        for (int j = 0; j < 3; j++){
+            m->enemies.push_back(std::make_shared<Enemy>(i * 50, j * 50 + 50));
+            m->enemies.back()->setSpeed(.06, .003);
+            v->enemy_sprites.push_back(std::make_shared<EnemySprite>());
+            v->enemy_sprites.back()->entity = m->enemies.back();
+            m->enemies.back()->addObserver(v->enemy_sprites.back());
+        }
+        m->enemies.back()->frontline = true;
+    }
+
+
+    Controller c;
+
+    c.view = v;
+    c.model = m;
+
+    double delta_time = 2;
+
+    while (v->window.isOpen()) {
+        Stopwatch::Instance()->restart();
+
+        c.update(delta_time);
+        v->render();
+
+        sf::Event event;
+        //handle event
+        while ((Stopwatch::Instance()->elapsed() < 10) && v->window.pollEvent(event)){
+            if (event.type == sf::Event::Closed)
+                v->window.close();
             else
                 c.handleEvent(delta_time, event);
         }
