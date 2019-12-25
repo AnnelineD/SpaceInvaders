@@ -37,6 +37,10 @@ void Controller::handleEvent(double dt, sf::Event &event) {
                     model->player->last_shot = Stopwatch::Instance()->now();
                 }
                 break;
+            case sf::Keyboard::Escape:
+            case sf::Keyboard::Q:
+                view->window.close();
+                break;
             default: break;
         }
 }

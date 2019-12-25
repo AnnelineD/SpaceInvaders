@@ -26,10 +26,8 @@ Bullet::Bullet(float x, float y): Entity(x, y) {
     height = 10;
 }
 
-Enemy::Enemy(float x, float y): Entity(x, y) {
-    width = 16;
-    height = 32;
-}
+Enemy::Enemy(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
+        coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
 void Entity::move(float dx, float dy) {
     this->coordx += dx;

@@ -22,6 +22,10 @@ public:
 
     //constructor
     explicit Model(const std::string& filename);
+
+    void initializeEnemies(int x, int y, float vx, float vy);
+    void initializeShields(int n, int length, std::vector<bool> form);
+    std::vector<bool> parseShieldForm(std::string spec);
 };
 
 

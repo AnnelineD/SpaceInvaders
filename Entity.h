@@ -40,7 +40,7 @@ public:
     /*
     Player();
      */
-    Player(float coordx = 400, float coordy = 540, float width = 32, float height = 32, int health = 3, float xSpeed = 50, float ySpeed = 0);
+    Player(float coordx = 400, float coordy = 540, float width = 32, float height = 32, int health = 3, float xSpeed = 10, float ySpeed = 0);
 };
 
 class Bullet : public Entity{
@@ -50,7 +50,8 @@ public:
 
 class Enemy : public Entity{
 public:
-    Enemy(float x, float y);
+    //Enemy(float x, float y);
+    explicit Enemy(float coordx = 0, float coordy = 0, float width = 16, float height = 32, int health = 1, float xSpeed = .06, float ySpeed = .003);
     bool frontline = false;
 };
 
