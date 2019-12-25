@@ -37,6 +37,7 @@ void Controller::handleEvent(double dt, sf::Event &event) {
                     model->player->last_shot = Stopwatch::Instance()->now();
                 }
                 break;
+            default: break;
         }
 }
 
@@ -98,11 +99,14 @@ void Controller::update(double dt) {
     }
 
     //collision detection
+
+    //enemies-playerbullets-shields
     auto enemies_ = model->enemies;
     p_bullets_ = model->p_bullets;
+    auto shields_ = model->shields;
 
-    for (auto& e:enemies_){
-        for (auto b : p_bullets_){
+    for (auto b : p_bullets_){
+        for (auto& e:enemies_){
             //check whether a bullet hits an enemy
             if(e->collidesWith(*b)){
                 double x = e->coordx;
@@ -119,15 +123,39 @@ void Controller::update(double dt) {
                 model->p_bullets.remove(b);
             }
         }
+        for(auto& s:shields_){
+            if(s->collidesWith(*b)){
+                //remove shield block
+                s->setHealth(0);
+                model->shields.remove(s);
+
+                //remove bullet
+                b->setHealth(0);
+                model->p_bullets.remove(b);
+            }
+        }
     }
 
+    //bullets-player
     e_bullets_ = model->e_bullets;
+    shields_ = model->shields;
 
     for (auto& b : e_bullets_){
         if(model->player->collidesWith(*b)){
             model->player->setHealth(model->player->health - 1);
             b->setHealth(0);
             model->e_bullets.remove(b);
+        }
+        for(auto& s:shields_){
+            if(s->collidesWith(*b)){
+                //remove shield block
+                s->setHealth(0);
+                model->shields.remove(s);
+
+                //remove bullet
+                b->setHealth(0);
+                model->e_bullets.remove(b);
+            }
         }
     }
 }
