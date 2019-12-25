@@ -55,3 +55,8 @@ bool Entity::setHealth(int i) {
     notify();
     return (health >=1);
 }
+
+ShieldBlock::ShieldBlock(float x, float y): Entity(x, y) {
+    this->width = 10;
+    this->height = 10;
+}

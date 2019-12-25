@@ -84,7 +84,7 @@ int main() {
     std::shared_ptr<Player> p = std::make_shared<Player>();
     p->setSpeed(50, 0);
     p->coordy = 540;
-    p->coordx = 200;
+    p->coordx = 400;
     p->addObserver(v->player_sprite);
     v->player_sprite->setEntity(p);
 
@@ -101,6 +101,25 @@ int main() {
             m->enemies.back()->addObserver(v->enemy_sprites.back());
         }
         m->enemies.back()->frontline = true;
+    }
+
+    std::vector<std::string> FORM = {
+            " ######## ",
+            "##########",
+            "##      ##",
+            "##      ##"};
+
+    for(int n = 0; n < 4; n++){
+        for (int i = 0; i < FORM.size(); i++) {
+            for (int j = 0; j < FORM[0].length(); j++){
+                if (FORM[i][j] == '#'){
+                    m->shields.push_back(std::make_shared<ShieldBlock>(50 + j*10 + n*200, 350 + i*10));
+                    v->shield_sprite.push_back(std::make_shared<ShieldSprite>());
+                    v->shield_sprite.back()->setEntity(m->shields.back());
+                    m->shields.back()->addObserver(v->shield_sprite.back());
+                }
+            }
+        }
     }
 
 

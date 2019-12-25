@@ -18,6 +18,7 @@ public:
     std::list<std::shared_ptr<Bullet>> p_bullets;
     std::list<std::shared_ptr<Enemy>> enemies;
     std::list<std::shared_ptr<Bullet>> e_bullets;
+    std::list<std::shared_ptr<ShieldBlock>> shields;
 
     ~Model() override = default;
 };

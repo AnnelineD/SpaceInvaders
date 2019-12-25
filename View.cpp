@@ -15,6 +15,15 @@ void View::render() {
 
     window.draw(sf::Sprite(background_texture));
 
+    auto shield_sprite_ = this->shield_sprite;
+    for(const auto& s: shield_sprite_) {
+        if (s->to_be_deleted) {
+            this->shield_sprite.remove(s);
+        } else {
+            this->window.draw(s->sprite);
+        }
+    }
+
     auto p_bullet_sprite_ = this->p_bullet_sprite;
     for(const auto& b: p_bullet_sprite_) {
         if (b->to_be_deleted) {

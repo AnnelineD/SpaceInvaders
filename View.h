@@ -10,7 +10,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <list>
-#include <utility>
 
 #include "Observer.h"
 
@@ -59,8 +58,7 @@ public:
 class EnemySprite: public Sprite{
 public:
     EnemySprite(){
-        if (!sprite_texture.loadFromFile("../starship.png"))
-        {
+        if (!sprite_texture.loadFromFile("../starship.png")){
             // TODO error...
         }
         sprite.setTexture(sprite_texture);
@@ -70,14 +68,22 @@ public:
 class BulletSprite: public Sprite{
 public:
     BulletSprite(){
-        if (!sprite_texture.loadFromFile("../bullet.png"))
-        {
+        if (!sprite_texture.loadFromFile("../bullet.png")){
             // TODO error...
         }
         sprite.setTexture(sprite_texture);
     }
 };
 
+class ShieldSprite: public Sprite {
+public:
+    ShieldSprite(){
+        if (!sprite_texture.loadFromFile("../shieldblock.png")){
+            // TODO error...
+        }
+    sprite.setTexture(sprite_texture);
+    }
+};
 
 class View{
 public:
@@ -92,9 +98,8 @@ public:
     std::list<std::shared_ptr<EnemySprite>> enemy_sprites;
     std::list<std::shared_ptr<BulletSprite>> p_bullet_sprite; //player bullets
     std::list<std::shared_ptr<BulletSprite>> e_bullet_sprite; //enemy bullets
+    std::list<std::shared_ptr<ShieldSprite>> shield_sprite;
 };
-
-
 
 
 #endif //SPACEINVADERS_VIEW_H

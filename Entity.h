@@ -50,5 +50,9 @@ public:
     bool frontline = false;
 };
 
+class ShieldBlock : public Entity{
+public:
+    ShieldBlock(float x, float y);
+};
 
 #endif //SPACEINVADERS_ENTITY_H
