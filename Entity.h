@@ -13,6 +13,7 @@ class Entity: public Subject {
 public:
     Entity() = default;
     Entity(float x, float y);
+    Entity(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed);
 
     float coordx, coordy;
     float width, height;
@@ -36,7 +37,10 @@ private:
 
 class Player : public Entity{
 public:
+    /*
     Player();
+     */
+    Player(float coordx = 400, float coordy = 540, float width = 32, float height = 32, int health = 3, float xSpeed = 50, float ySpeed = 0);
 };
 
 class Bullet : public Entity{

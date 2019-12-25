@@ -81,16 +81,10 @@ int main() {
 
     auto v = std::make_shared<View>(800, 600);
 
-    std::shared_ptr<Player> p = std::make_shared<Player>();
-    p->setSpeed(50, 0);
-    p->coordy = 540;
-    p->coordx = 400;
-    p->addObserver(v->player_sprite);
-    v->player_sprite->setEntity(p);
+    auto m = std::make_shared<Model>("../testLevel.ini");
 
-    auto m = std::make_shared<Model>();
-    m->player = p;
-
+    m->player->addObserver(v->player_sprite);
+    v->player_sprite->setEntity(m->player);
 
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 3; j++){
