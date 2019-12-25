@@ -11,7 +11,8 @@ add_executable(SpaceInvaders main.cpp
         Model.cpp Model.h
         Stopwatch.cpp Stopwatch.h
         Subject.cpp Subject.h
-        Observer.cpp Observer.h)
+        Observer.cpp Observer.h
+        Transformation.cpp Transformation.h)
 
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})

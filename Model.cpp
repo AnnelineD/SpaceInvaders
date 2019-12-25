@@ -4,7 +4,6 @@
 
 #include "Model.h"
 
-#include <utility>
 
 Model::Model(const std::string& filename) {
     INIReader reader(filename);
@@ -21,17 +20,11 @@ Model::Model(const std::string& filename) {
     int y_enemies = (int)reader.GetInteger("enemies", "numberOfRows", 6);
     float vx = reader.GetFloat("enemies", "horizontalSpeed", 1);
     float vy = reader.GetFloat("enemies", "verticalSpeed", 1);
-
     initializeEnemies(x_enemies, y_enemies, vx, vy);
 
     std::string FORM = reader.Get("shields", "form", "######## /##########/##      ##/##      ##");
-
-
-    std::vector<bool> test = parseShieldForm(FORM);
-
     int n_shields = (int)reader.GetInteger("shields", "number", 4);
-
-    initializeShields(n_shields, 16, test);
+    initializeShields(n_shields, 16, parseShieldForm(FORM));
 }
 
 void Model::initializeEnemies(int x, int y, float vx, float vy) {

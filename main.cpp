@@ -18,7 +18,7 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
 
     sf::SoundBuffer buffer;
-    if (!buffer.loadFromFile("../david-bowie-life-on-mars.wav"))
+    if (!buffer.loadFromFile("../resources/david-bowie-life-on-mars.wav"))
         std::cout << "Sound doesn't work" << std::endl;
     //TODO make a real exception
 

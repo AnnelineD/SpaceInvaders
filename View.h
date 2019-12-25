@@ -48,7 +48,7 @@ public:
 class PlayerSprite: public Sprite{
 public:
     PlayerSprite(){
-        if (!sprite_texture.loadFromFile("../alien.png")) {
+        if (!sprite_texture.loadFromFile("../resources/alien.png")) {
             // TODO error...
         }
         sprite.setTexture(sprite_texture);
@@ -58,7 +58,7 @@ public:
 class EnemySprite: public Sprite{
 public:
     EnemySprite(){
-        if (!sprite_texture.loadFromFile("../starship.png")){
+        if (!sprite_texture.loadFromFile("../resources/starship.png")){
             // TODO error...
         }
         sprite.setTexture(sprite_texture);
@@ -68,7 +68,7 @@ public:
 class BulletSprite: public Sprite{
 public:
     BulletSprite(){
-        if (!sprite_texture.loadFromFile("../bullet.png")){
+        if (!sprite_texture.loadFromFile("../resources/bullet.png")){
             // TODO error...
         }
         sprite.setTexture(sprite_texture);
@@ -78,7 +78,7 @@ public:
 class ShieldSprite: public Sprite {
 public:
     ShieldSprite(){
-        if (!sprite_texture.loadFromFile("../shieldblock.png")){
+        if (!sprite_texture.loadFromFile("../resources/shieldblock.png")){
             // TODO error...
         }
     sprite.setTexture(sprite_texture);

@@ -6,8 +6,8 @@
 #include <iostream>
 
 View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
-    if (!background_texture.loadFromFile("../mars_planeet.jpg")){}
-    if (!font.loadFromFile("../ScifiAdventure.otf")){}
+    if (!background_texture.loadFromFile("../resources/mars_planeet.jpg")){}
+    if (!font.loadFromFile("../resources/ScifiAdventure.otf")){}
 }
 
 void View::render() {
