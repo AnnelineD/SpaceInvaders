@@ -7,6 +7,7 @@
 
 #include <chrono>
 #include "Subject.h"
+#include "Transformation.h"
 
 
 class Entity: public Subject {
@@ -40,7 +41,10 @@ public:
     /*
     Player();
      */
-    Player(float coordx = 400, float coordy = 540, float width = 32, float height = 32, int health = 3, float xSpeed = 10, float ySpeed = 0);
+    Player(float coordx = 0, float coordy = -2.5,
+            float width = .32,
+            float height = .32,
+            int health = 3, float xSpeed = .1, float ySpeed = 0);
 };
 
 class Bullet : public Entity{
@@ -51,7 +55,10 @@ public:
 class Enemy : public Entity{
 public:
     //Enemy(float x, float y);
-    explicit Enemy(float coordx = 0, float coordy = 0, float width = 16, float height = 32, int health = 1, float xSpeed = .06, float ySpeed = .003);
+    explicit Enemy(float coordx = 0, float coordy = 0,
+                   float width = 0.16,
+                   float height = 0.32,
+                   int health = 1, float xSpeed = .002, float ySpeed = .0001);
     bool frontline = false;
 };
 

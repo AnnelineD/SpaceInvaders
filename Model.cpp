@@ -30,8 +30,9 @@ Model::Model(const std::string& filename) {
 void Model::initializeEnemies(int x, int y, float vx, float vy) {
     for (int i = 0; i < x; i++){
         for (int j = 0; j < y; j++){
-            this->enemies.push_back(std::make_shared<Enemy>(i * 50, j * 50 + 50));
-            this->enemies.back()->setSpeed(vx * .06, vy * .003);
+            std::tuple<float, float> c = Transformation::Instance()->toLogic({i * 50, j * 50 + 50});
+            this->enemies.push_back(std::make_shared<Enemy>(std::get<0>(c), std::get<1>(c)));
+            this->enemies.back()->setSpeed(vx * .0002, vy * (-.0001));
         }
         this->enemies.back()->frontline = true;
     }
@@ -42,7 +43,8 @@ void Model::initializeShields(int n_shields, int length, std::vector<bool> form)
         for (int i = 0; i < form.size()/length; i++) {
             for (int j = 0; j < length; j++){
                 if (form[i*length + j]){
-                    this->shields.push_back(std::make_shared<ShieldBlock>(50 + j*10 + n*200, 350 + i*10));
+                    std::tuple<float, float> c = Transformation::Instance()->toLogic({50 + j*10 + n*200, 350 + i*10});
+                    this->shields.push_back(std::make_shared<ShieldBlock>(std::get<0>(c), std::get<1>(c)));
                 }
             }
         }

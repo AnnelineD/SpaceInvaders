@@ -13,36 +13,36 @@ void Controller::handleEvent(double dt, sf::Event &event) {
     //TODO player schiet
 
     //move player
-        switch (event.key.code){
-            case sf::Keyboard::Left:
-                if (model->player->coordx -50*dt > 10) {
-                    model->player->move(-50*dt, 0);
-                }
-                break;
-            case sf::Keyboard::Right:
-                //check that player doesn't go out of view before moving
-                if (model->player->coordx + 50*dt < (float)view->window.getSize().x - 20){
-                    model->player->move(dt);
-                }
-                break;
-            case sf::Keyboard::Up:
-            case sf::Keyboard::Space:
-                // check time between shoots so that player does't have a machine gun
-                if(Stopwatch::Instance()->elapsed(model->player->last_shot) > 400){
-                    model->p_bullets.push_back(std::make_shared<Bullet>(model->player->coordx, model->player->coordy));
-                    view->p_bullet_sprite.push_back(std::make_shared<BulletSprite>());
-                    view->p_bullet_sprite.back()->entity = model->p_bullets.back();
-                    model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
+    switch (event.key.code){
+        case sf::Keyboard::Left:
+            if (model->player->coordx -.1*dt > -4.1) {
+                model->player->move(-dt);
+            }
+            break;
+        case sf::Keyboard::Right:
+            //check that player doesn't go out of view before moving
+            if (model->player->coordx + .1*dt < 4.1 - model->player->width){
+                model->player->move(dt);
+            }
+            break;
+        case sf::Keyboard::Up:
+        case sf::Keyboard::Space:
+            // check time between shoots so that player does't have a machine gun
+            if(Stopwatch::Instance()->elapsed(model->player->last_shot) > 400){
+                model->p_bullets.push_back(std::make_shared<Bullet>(model->player->coordx, model->player->coordy));
+                view->p_bullet_sprite.push_back(std::make_shared<BulletSprite>());
+                view->p_bullet_sprite.back()->setEntity(model->p_bullets.back());
+                model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
 
-                    model->player->last_shot = Stopwatch::Instance()->now();
-                }
-                break;
-            case sf::Keyboard::Escape:
-            case sf::Keyboard::Q:
-                view->window.close();
-                break;
-            default: break;
-        }
+                model->player->last_shot = Stopwatch::Instance()->now();
+            }
+            break;
+        case sf::Keyboard::Escape:
+            std::cout<<event.key.code;
+            view->window.close();
+            break;
+        default: break;
+    }
 }
 
 void Controller::update(double dt) {
@@ -50,9 +50,9 @@ void Controller::update(double dt) {
     auto p_bullets_ = model->p_bullets;
 
     for (auto b:p_bullets_){
-        b->move(0, -1*dt);
+        b->move(0, 0.007*dt);
         //bullet is removed when it is out of the screen
-        if(b->coordy < 0){
+        if(b->coordy > 3){
             b->setHealth(0);
             model->p_bullets.remove(b);
         }
@@ -62,9 +62,9 @@ void Controller::update(double dt) {
     auto e_bullets_ = model->e_bullets;
 
     for (auto b:e_bullets_){
-        b->move(0, .7*dt);
+        b->move(0, -0.003*dt);
         //bullet is removed when it is out of the screen
-        if(b->coordy > view->window.getSize().y){
+        if(b->coordy < -3){
             b->setHealth(0);
             model->e_bullets.remove(b);
         }
@@ -77,7 +77,7 @@ void Controller::update(double dt) {
     }
 
     //the "enemy block" changes direction when the most left of right enemies hit the side of the screen
-    bool change_direction = model->enemies.back()->coordx > view->window.getSize().x || model->enemies.front()->coordx < 0;
+    bool change_direction = model->enemies.back()->coordx >= 4 || model->enemies.front()->coordx <= -4;
 
     for (auto& e:model->enemies){
         if(change_direction){

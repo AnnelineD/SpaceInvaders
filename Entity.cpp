@@ -22,8 +22,8 @@ Player::Player(float coordx, float coordy, float width, float height, int health
         coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
 Bullet::Bullet(float x, float y): Entity(x, y) {
-    width = 5;
-    height = 10;
+    width = .05;
+    height = .10;
 }
 
 Enemy::Enemy(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
@@ -64,6 +64,6 @@ bool Entity::setHealth(int i) {
 }
 
 ShieldBlock::ShieldBlock(float x, float y): Entity(x, y) {
-    this->width = 10;
-    this->height = 10;
+    this->width = .10;
+    this->height = .10;
 }
