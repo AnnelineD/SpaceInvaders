@@ -5,9 +5,21 @@
 #ifndef SPACEINVADERS_SPACEINVADERSGAME_H
 #define SPACEINVADERS_SPACEINVADERSGAME_H
 
+#include <memory>
+#include <string>
+#include "Model.h"
+#include "View.h"
+#include "Controller.h"
+
 
 class SpaceInvadersGame {
+    std::shared_ptr<Model> model;
+    std::shared_ptr<View> view;
+    Controller controller;
 
+public:
+    explicit SpaceInvadersGame(const std::string& filename);
+    void start();
 };
 
 
