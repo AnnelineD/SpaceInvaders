@@ -5,51 +5,14 @@
 #ifndef SPACEINVADERS_VIEW_H
 #define SPACEINVADERS_VIEW_H
 
-#include "Model.h"
-
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <list>
-#include <utility>
-
+#include "Entity.h"
 #include "Observer.h"
+#include "Sprite.h"
 #include "Transformation.h"
 
-class Sprite : public Observer{
-public:
-    sf::Sprite sprite;
-    sf::Texture sprite_texture; //the sprite gets a pointer to the background_texture, so it is destroyed if we don't save it
-    std::shared_ptr<Entity> entity;
-    bool to_be_deleted = false;
-
-    //constructors
-    Sprite() = default;
-    /*
-    explicit Sprite(std::shared_ptr<Entity> e): entity(std::move(e)){
-        this->sprite.setPosition(this->entity->coordx, this->entity->coordy);
-    };
-    explicit Sprite(const Entity& e): entity(std::make_shared<Entity>(e)){
-        this->sprite.setPosition(this->entity->coordx, this->entity->coordy);
-    };
-     */
-
-    //methods
-    void setEntity(std::shared_ptr<Entity> e){
-        entity = std::move(e);
-        std::tuple<float, float> position = Transformation::Instance()->toScreen(std::make_tuple(this->entity->coordx, this->entity->coordy));
-        this->sprite.setPosition(std::get<0>(position), std::get<1>(position));
-    };
-
-    void update() override {
-        if(this->entity->health <= 0){
-            this->to_be_deleted = true;
-        }
-        else{
-            std::tuple<float, float> position = Transformation::Instance()->toScreen(std::make_tuple(this->entity->coordx, this->entity->coordy));
-            this->sprite.setPosition(std::get<0>(position), std::get<1>(position));
-        }
-    };
-};
 
 class PlayerSprite: public Sprite{
 public:
