@@ -10,6 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <list>
+#include <utility>
 
 #include "Observer.h"
 #include "Transformation.h"
@@ -34,7 +35,7 @@ public:
 
     //methods
     void setEntity(std::shared_ptr<Entity> e){
-        entity = e;
+        entity = std::move(e);
         std::tuple<float, float> position = Transformation::Instance()->toScreen(std::make_tuple(this->entity->coordx, this->entity->coordy));
         this->sprite.setPosition(std::get<0>(position), std::get<1>(position));
     };
@@ -53,8 +54,9 @@ public:
 class PlayerSprite: public Sprite{
 public:
     PlayerSprite(){
-        if (!sprite_texture.loadFromFile("../resources/alien.png")) {
-            // TODO error...
+        std::string filename = "../resources/alien.png";
+        if (!sprite_texture.loadFromFile(filename)) {
+            throw std::invalid_argument("Couldn't load image for player : " + filename);
         }
         sprite.setTexture(sprite_texture);
     }
@@ -63,8 +65,9 @@ public:
 class EnemySprite: public Sprite{
 public:
     EnemySprite(){
-        if (!sprite_texture.loadFromFile("../resources/starship.png")){
-            // TODO error...
+        std::string filename = "../resources/starship.png";
+        if (!sprite_texture.loadFromFile(filename)){
+            throw std::invalid_argument("Couldn't load image for enemies : " + filename);
         }
         sprite.setTexture(sprite_texture);
     }
@@ -73,8 +76,9 @@ public:
 class BulletSprite: public Sprite{
 public:
     BulletSprite(){
-        if (!sprite_texture.loadFromFile("../resources/bullet.png")){
-            // TODO error...
+        std::string filename = "../resources/bullet.png";
+        if (!sprite_texture.loadFromFile(filename)){
+            throw std::invalid_argument("Couldn't load image for bullets : " + filename);
         }
         sprite.setTexture(sprite_texture);
     }
@@ -83,8 +87,9 @@ public:
 class ShieldSprite: public Sprite {
 public:
     ShieldSprite(){
-        if (!sprite_texture.loadFromFile("../resources/shieldblock.png")){
-            // TODO error...
+        std::string filename = "../resources/shieldblock.png";
+        if (!sprite_texture.loadFromFile(filename)){
+            throw std::invalid_argument("Couldn't load image for shields : " + filename);
         }
     sprite.setTexture(sprite_texture);
     }
