@@ -16,17 +16,24 @@ int main() {
 
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile("../resources/david-bowie-life-on-mars.wav"))
-        std::cout << "Sound doesn't work" << std::endl;
-    //TODO make a real exception
+        std::cout << "Couldn't load sound" << std::endl;
 
     sf::Sound sound;
     sound.setBuffer(buffer);
-    sound.setVolume(50);
+    sound.setVolume(100);
     //sound.play();
 
     auto v = std::make_shared<View>(800, 600);
 
-    auto m = std::make_shared<Model>("../testLevel.ini");
+    std::shared_ptr<Model> m;
+    try{
+        m = std::make_shared<Model>("../testLevel.ini");
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what();
+        return 1;
+    }
+
     m->player->addObserver(v->player_sprite);
     v->player_sprite->setEntity(m->player);
 

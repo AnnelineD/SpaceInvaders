@@ -64,6 +64,6 @@ bool Entity::setHealth(int i) {
 }
 
 ShieldBlock::ShieldBlock(float x, float y): Entity(x, y) {
-    this->width = .10;
-    this->height = .10;
+    this->width = .1;
+    this->height = .1;
 }
