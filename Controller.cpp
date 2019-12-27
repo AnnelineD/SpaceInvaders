@@ -7,7 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 
-void Controller::handleEvent(double dt, sf::Event &event) {
+void Controller::handleEvent(float dt, sf::Event &event) {
 
     //TODO Enemys schieten
     //TODO player schiet
@@ -30,6 +30,7 @@ void Controller::handleEvent(double dt, sf::Event &event) {
             // check time between shoots so that player does't have a machine gun
             if(Stopwatch::Instance()->elapsed(model->player->last_shot) > 400){
                 model->p_bullets.push_back(std::make_shared<Bullet>(model->player->coordx, model->player->coordy));
+                model->p_bullets.back()->setSpeed(0, 0.007);
                 view->p_bullet_sprite.push_back(std::make_shared<BulletSprite>());
                 view->p_bullet_sprite.back()->setEntity(model->p_bullets.back());
                 model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
@@ -45,12 +46,12 @@ void Controller::handleEvent(double dt, sf::Event &event) {
     }
 }
 
-void Controller::update(double dt) {
+void Controller::update(float dt) {
     //player bullet render
     auto p_bullets_ = model->p_bullets;
 
-    for (auto b:p_bullets_){
-        b->move(0, 0.007*dt);
+    for (const auto& b:p_bullets_){
+        b->move(dt);
         //bullet is removed when it is out of the screen
         if(b->coordy > 3){
             b->setHealth(0);
@@ -60,9 +61,8 @@ void Controller::update(double dt) {
 
     //enemy bullet render
     auto e_bullets_ = model->e_bullets;
-
-    for (auto b:e_bullets_){
-        b->move(0, -0.003*dt);
+    for (const auto& b:e_bullets_){
+        b->move(dt);
         //bullet is removed when it is out of the screen
         if(b->coordy < -3){
             b->setHealth(0);
@@ -91,9 +91,10 @@ void Controller::update(double dt) {
     std::mt19937 mt(rd());
     for(auto& e : model->enemies){
         std::uniform_real_distribution<double> dist(0, 4000);
-        //an enemy can't shoot twice in 0.4 seconds and has to be on the frontline
+        //an enemy can't shoot twice in 0.4 seconds and has to be on the frontline to shoot
         if(dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 3000 && e->frontline){
                 model->e_bullets.push_back(std::make_shared<Bullet>(e->coordx, e->coordy));
+                model->e_bullets.back()->setSpeed(0, -0.003);
                 view->e_bullet_sprite.push_back(std::make_shared<BulletSprite>());
                 view->e_bullet_sprite.back()->entity = model->e_bullets.back();
                 model->e_bullets.back()->addObserver(view->e_bullet_sprite.back());
@@ -109,7 +110,7 @@ void Controller::update(double dt) {
     p_bullets_ = model->p_bullets;
     auto shields_ = model->shields;
 
-    for (auto b : p_bullets_){
+    for (const auto& b : p_bullets_){
         for (auto& e:enemies_){
             //check whether a bullet hits an enemy
             if(e->collidesWith(*b)){

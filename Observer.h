@@ -1,6 +1,6 @@
 //
 // Created by anneline on 12/12/19.
-// observer from observer design pattern
+// observer class from observer design pattern
 
 #ifndef SPACEINVADERS_OBSERVER_H
 #define SPACEINVADERS_OBSERVER_H

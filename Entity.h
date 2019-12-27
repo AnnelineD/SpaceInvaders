@@ -21,9 +21,6 @@ public:
     std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now();
     int health = 1;
 
-    //TODO delete this function
-    void move(float dx, float dy);
-
     void move(float dt);
     void setSpeed(float vx, float vy);
     void changeDirection();

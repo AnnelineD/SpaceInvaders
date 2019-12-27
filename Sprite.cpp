@@ -19,6 +19,7 @@ void Sprite::setEntity(std::shared_ptr <Entity> e) {
  * It changes the position of the sprite when the position of it's subject has changed
  */
 void Sprite::update() {
+    //when the entity is dead the sprite has to be deleted
     if(this->entity->health <= 0){
         this->to_be_deleted = true;
     }

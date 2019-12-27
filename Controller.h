@@ -12,8 +12,8 @@
 class Controller {
 public:
 
-    void handleEvent(double dt, sf::Event &event);
-    void update(double dt);
+    void handleEvent(float dt, sf::Event &event);
+    void update(float dt);
 
     std::shared_ptr<View> view;
     std::shared_ptr<Model> model;

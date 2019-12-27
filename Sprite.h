@@ -1,5 +1,5 @@
 //
-// Created by anneline on 12/26/19.
+// Anneline Daggelinckx
 //
 
 #ifndef SPACEINVADERS_SPRITE_H
@@ -13,8 +13,8 @@ class Sprite : public Observer{
 public:
     sf::Sprite sprite;
     sf::Texture sprite_texture; //the sprite gets a pointer to the background_texture, because it is destroyed if we don't save it
-    std::shared_ptr<Entity> entity;
-    bool to_be_deleted = false;
+    std::shared_ptr<Entity> entity; //the entity that the sprite is representing
+    bool to_be_deleted = false; //when the entity is dead the sprite has to be deleted
 
     //constructors
     Sprite() = default;

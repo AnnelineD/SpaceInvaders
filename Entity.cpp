@@ -10,14 +10,6 @@ Entity::Entity(float coordx, float coordy, float width, float height, int health
         coordx), coordy(coordy), width(width), height(height), health(health), x_speed(xSpeed), y_speed(ySpeed) {}
 
 
-/*
-Player::Player(): Entity(0, 0) {
-    width = 32;
-    height = 32;
-    this->health = 3;
-}
- */
-
 Player::Player(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
         coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
@@ -29,11 +21,6 @@ Bullet::Bullet(float x, float y): Entity(x, y) {
 Enemy::Enemy(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
         coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
-void Entity::move(float dx, float dy) {
-    this->coordx += dx;
-    this->coordy += dy;
-    notify();
-}
 
 void Entity::move(float dt){
     this->coordx += dt*this->x_speed;
