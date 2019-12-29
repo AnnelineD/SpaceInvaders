@@ -4,53 +4,55 @@
 
 #include "Entity.h"
 
-Entity::Entity(float x, float y): coordx(x), coordy(y) {}
+namespace model{
+    Entity::Entity(float x, float y): x(x), y(y) {}
 
-Entity::Entity(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : coordx(
-        coordx), coordy(coordy), width(width), height(height), health(health), x_speed(xSpeed), y_speed(ySpeed) {}
-
-
-Player::Player(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
-        coordx, coordy, width, height, health, xSpeed, ySpeed) {}
-
-Bullet::Bullet(float x, float y): Entity(x, y) {
-    width = .05;
-    height = .10;
-}
-
-Enemy::Enemy(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
-        coordx, coordy, width, height, health, xSpeed, ySpeed) {}
+    Entity::Entity(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : x(
+            coordx), y(coordy), width(width), height(height), health(health), vx(xSpeed), vy(ySpeed) {}
 
 
-void Entity::move(float dt){
-    this->coordx += dt*this->x_speed;
-    this->coordy += dt*this->y_speed;
-    notify();
-}
+    Player::Player(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
+            coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
-void Entity::setSpeed(float vx, float vy) {
-    this->x_speed = vx;
-    this->y_speed = vy;
-}
+    Bullet::Bullet(float x, float y): Entity(x, y) {
+        width = .05;
+        height = .10;
+    }
 
-void Entity::changeDirection() {
-    this->x_speed = -this->x_speed;
-}
+    Enemy::Enemy(float coordx, float coordy, float width, float height, int health, float xSpeed, float ySpeed) : Entity(
+            coordx, coordy, width, height, health, xSpeed, ySpeed) {}
 
-bool Entity::collidesWith(const Entity &e) const {
-    return (this->coordx < e.coordx + e.width &&
-       this->coordx + this->width > e.coordx &&
-       this->coordy < e.coordy + e.height &&
-       this->coordy + this->height > e.coordy);
-}
 
-bool Entity::setHealth(int i) {
-    this->health = i;
-    notify();
-    return (health >=1);
-}
+    void Entity::move(float dt){
+        this->x += dt * this->vx;
+        this->y += dt * this->vy;
+        notify();
+    }
 
-ShieldBlock::ShieldBlock(float x, float y): Entity(x, y) {
-    this->width = .1;
-    this->height = .1;
+    void Entity::setSpeed(float vx, float vy) {
+        this->vx = vx;
+        this->vy = vy;
+    }
+
+    void Entity::changeDirection() {
+        this->vx = -this->vx;
+    }
+
+    bool Entity::collidesWith(const Entity &e) const {
+        return (this->x < e.x + e.width &&
+                this->x + this->width > e.x &&
+                this->y < e.y + e.height &&
+                this->y + this->height > e.y);
+    }
+
+    bool Entity::setHealth(int i) {
+        this->health = i;
+        notify();
+        return (health >=1);
+    }
+
+    ShieldBlock::ShieldBlock(float x, float y): Entity(x, y) {
+        this->width = .1;
+        this->height = .1;
+    }
 }

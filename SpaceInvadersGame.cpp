@@ -7,10 +7,10 @@
 #include "Stopwatch.h"
 
 SpaceInvadersGame::SpaceInvadersGame(const std::string& filename) {
-    this->view = std::make_shared<View>(800, 600);
+    this->view = std::make_shared<view::View>(800, 600);
 
     try{
-        this->model = std::make_shared<Model>(filename);
+        this->model = std::make_shared<model::Model>(filename);
     }
     catch (std::exception &e) {
         std::cerr << e.what();
@@ -24,13 +24,13 @@ SpaceInvadersGame::SpaceInvadersGame(const std::string& filename) {
 
     //TODO zet volgende 2 loops in view
     for (auto& i : this->model->enemies){
-        this->view->enemy_sprites.push_back(std::make_shared<EnemySprite>());
+        this->view->enemy_sprites.push_back(std::make_shared<view::EnemySprite>());
         this->view->enemy_sprites.back()->entity = i;
         i->addObserver(this->view->enemy_sprites.back());
     }
 
     for(auto& s : this->model->shields){
-        this->view->shield_sprite.push_back(std::make_shared<ShieldSprite>());
+        this->view->shield_sprite.push_back(std::make_shared<view::ShieldSprite>());
         this->view->shield_sprite.back()->setEntity(s);
         s->addObserver(this->view->shield_sprite.back());
     }

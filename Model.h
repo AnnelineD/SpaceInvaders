@@ -11,22 +11,24 @@
 #include <iostream>
 #include "INIReader.h"
 
+namespace model{
+    class Model {
+    public:
+        std::shared_ptr<Player> player;
+        std::list<std::shared_ptr<Bullet>> p_bullets;
+        std::list<std::shared_ptr<Enemy>> enemies;
+        std::list<std::shared_ptr<Bullet>> e_bullets;
+        std::list<std::shared_ptr<ShieldBlock>> shields;
 
-class Model {
-public:
-    std::shared_ptr<Player> player;
-    std::list<std::shared_ptr<Bullet>> p_bullets;
-    std::list<std::shared_ptr<Enemy>> enemies;
-    std::list<std::shared_ptr<Bullet>> e_bullets;
-    std::list<std::shared_ptr<ShieldBlock>> shields;
+        //constructor
+        explicit Model(const std::string& filename);
 
-    //constructor
-    explicit Model(const std::string& filename);
-
-    void initializeEnemies(int x, int y, float vx, float vy);
-    void initializeShields(int n, int length, std::vector<bool> form);
-    std::vector<bool> parseShieldForm(std::string spec);
-};
+    private:
+        void initializeEnemies(int x, int y, float vx, float vy);
+        void initializeShields(int n, int length, std::vector<bool> form);
+        std::vector<bool> parseShieldForm(std::string spec);
+    };
+}
 
 
 #endif //SPACEINVADERS_MODEL_H

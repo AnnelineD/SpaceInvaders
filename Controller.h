@@ -15,8 +15,8 @@ public:
     void handleEvent(float dt, sf::Event &event);
     void update(float dt);
 
-    std::shared_ptr<View> view;
-    std::shared_ptr<Model> model;
+    std::shared_ptr<view::View> view;
+    std::shared_ptr<model::Model> model;
 };
 
 

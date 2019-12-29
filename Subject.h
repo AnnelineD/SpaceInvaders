@@ -1,5 +1,5 @@
 //
-// Created by anneline on 12/12/19.
+// Created by Anneline Daggelinckx on 12/12/19.
 //
 
 #ifndef SPACEINVADERS_SUBJECT_H
@@ -10,19 +10,25 @@
 #include "Observer.h"
 
 
-//abstract class
+/**
+ * class subject from observer design pattern
+ */
 class Subject {
     std::vector<std::shared_ptr<Observer>> m_observer_list;
 public:
     Subject() = default;
     virtual ~Subject() = default;
-    void addObserver(std::shared_ptr<Observer> observerPtr);
-    //void removeObserver(std::shared_ptr<Observer>  observerPtr);
-    void notify(){
-        for(const auto& m_obs: m_observer_list){
-            m_obs->update();
-        }
-    };
+
+    /**
+     * adds an observer
+     * @param observerPtr a shared ptr to the observer you want to add
+     */
+    void addObserver(const std::shared_ptr<Observer>& observerPtr);
+
+    /**
+     * updates all linked observers
+     */
+    void notify();
 };
 
 

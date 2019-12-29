@@ -13,8 +13,8 @@
 
 
 class SpaceInvadersGame {
-    std::shared_ptr<Model> model;
-    std::shared_ptr<View> view;
+    std::shared_ptr<model::Model> model;
+    std::shared_ptr<view::View> view;
     Controller controller;
 
 public:
