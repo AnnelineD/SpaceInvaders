@@ -16,46 +16,22 @@
 namespace view {
     class PlayerSprite : public Sprite {
     public:
-        PlayerSprite() {
-            std::string filename = "../resources/alien.png";
-            if (!sprite_texture.loadFromFile(filename)) {
-                throw std::invalid_argument("Couldn't load image for player : " + filename);
-            }
-            sprite.setTexture(sprite_texture);
-        }
+        PlayerSprite() : Sprite("../resources/alien.png"){};
     };
 
     class EnemySprite : public Sprite {
     public:
-        EnemySprite() {
-            std::string filename = "../resources/starship.png";
-            if (!sprite_texture.loadFromFile(filename)) {
-                throw std::invalid_argument("Couldn't load image for enemies : " + filename);
-            }
-            sprite.setTexture(sprite_texture);
-        }
+        EnemySprite() : Sprite("../resources/starship.png"){};
     };
 
     class BulletSprite : public Sprite {
     public:
-        BulletSprite() {
-            std::string filename = "../resources/bullet.png";
-            if (!sprite_texture.loadFromFile(filename)) {
-                throw std::invalid_argument("Couldn't load image for bullets : " + filename);
-            }
-            sprite.setTexture(sprite_texture);
-        }
+        BulletSprite() : Sprite("../resources/bullet.png"){};
     };
 
     class ShieldSprite : public Sprite {
     public:
-        ShieldSprite() {
-            std::string filename = "../resources/shieldblock.png";
-            if (!sprite_texture.loadFromFile(filename)) {
-                throw std::invalid_argument("Couldn't load image for shields : " + filename);
-            }
-            sprite.setTexture(sprite_texture);
-        }
+        ShieldSprite() : Sprite("../resources/shieldblock.png") {};
     };
 
     class View {

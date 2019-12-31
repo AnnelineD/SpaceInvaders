@@ -7,6 +7,13 @@
 
 namespace view{
 
+    Sprite::Sprite(std::string filename) {
+        if (!sprite_texture.loadFromFile(filename)) {
+            throw std::invalid_argument("Couldn't load image for shields : " + filename);
+        }
+        sprite.setTexture(sprite_texture);
+    }
+
     void Sprite::setEntity(std::shared_ptr <model::Entity> e) {
         entity = std::move(e);
         std::tuple<float, float> position = Transformation::Instance()->toScreen(std::make_tuple(this->entity->x, this->entity->y));
