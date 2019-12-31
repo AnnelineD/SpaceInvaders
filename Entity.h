@@ -15,13 +15,14 @@ namespace model {
  * this class represents the entities of the game (player, enemy, bullet, shieldblock)
  */
     class Entity: public Subject {
-        float vx, vy; //the speed of the entity
+        float vx{}, vy{}; //the speed of the entity
 
     public:
-        float x, y; //position in the x and y axis
-        float width, height; //width and height of the entity
+        float x{}, y{}; //position in the x and y axis
+        float width{}, height{}; //width and height of the entity
         std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now(); //last time the entity shot
         int health = 1;
+        bool frontline = false;
 
         Entity() = default;
         Entity(float x, float y);
@@ -59,35 +60,6 @@ namespace model {
          */
         [[nodiscard]] bool collidesWith(const Entity& e) const;
 
-    };
-
-
-    class Player : public Entity{
-    public:
-        explicit Player(float coordx = 0, float coordy = -2.5,
-                float width = .32,
-                float height = .32,
-                int health = 3, float xSpeed = .1, float ySpeed = 0);
-    };
-
-    class Bullet : public Entity{
-    public:
-        Bullet(float x, float y);
-    };
-
-    class Enemy : public Entity{
-    public:
-        //Enemy(float x, float y);
-        explicit Enemy(float coordx = 0, float coordy = 0,
-                       float width = 0.16,
-                       float height = 0.32,
-                       int health = 1, float xSpeed = .002, float ySpeed = .0001);
-        bool frontline = false;
-    };
-
-    class ShieldBlock : public Entity{
-    public:
-        ShieldBlock(float x, float y);
     };
 
 }

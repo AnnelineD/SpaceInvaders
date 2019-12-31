@@ -28,7 +28,7 @@ public:
     /**
      * updates all linked observers
      */
-    void notify();
+    void notify() const;
 };
 
 

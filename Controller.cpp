@@ -29,8 +29,7 @@ void Controller::handleEvent(float dt, sf::Event &event) {
         case sf::Keyboard::Space:
             // check time between shoots so that player does't have a machine gun
             if(Stopwatch::Instance()->elapsed(model->player->last_shot) > 400){
-                model->p_bullets.push_back(std::make_shared<model::Bullet>(model->player->x, model->player->y));
-                model->p_bullets.back()->setSpeed(0, 0.007);
+                model->p_bullets.push_back(std::make_shared<model::Entity>(model->player->x, model->player->y, 0, 0.007, 1, .05, .1));
                 view->p_bullet_sprite.push_back(std::make_shared<view::BulletSprite>());
                 view->p_bullet_sprite.back()->setEntity(model->p_bullets.back());
                 model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
@@ -93,7 +92,7 @@ void Controller::update(float dt) {
         std::uniform_real_distribution<double> dist(0, 4000);
         //an enemy can't shoot twice in 0.4 seconds and has to be on the frontline to shoot
         if(dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 3000 && e->frontline){
-                model->e_bullets.push_back(std::make_shared<model::Bullet>(e->x, e->y));
+                model->e_bullets.push_back(std::make_shared<model::Entity>(e->x, e->y, 0, -0.003, 1, .05, .1));
                 model->e_bullets.back()->setSpeed(0, -0.003);
                 view->e_bullet_sprite.push_back(std::make_shared<view::BulletSprite>());
                 view->e_bullet_sprite.back()->entity = model->e_bullets.back();

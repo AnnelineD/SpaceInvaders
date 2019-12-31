@@ -12,7 +12,7 @@ namespace model {
             throw std::invalid_argument("Can't load " + filename + "\n");
         }
 
-        this->player = std::make_shared<Player>();
+        this->player = std::make_shared<Entity>(0, -2.5, .1, 0, 3, .32, .32);
         this->player->health = (int) reader.GetInteger("player", "health", 3);
 
         int x_enemies = (int) reader.GetInteger("enemies", "enemiesPerRow", 6);
@@ -46,8 +46,7 @@ namespace model {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 std::tuple<float, float> c = Transformation::Instance()->toLogic({i * 50, j * 50 + 50});
-                this->enemies.push_back(std::make_shared<Enemy>(std::get<0>(c), std::get<1>(c)));
-                this->enemies.back()->setSpeed(vx * .0002, vy * (-.00003));
+                this->enemies.push_back(std::make_shared<Entity>(std::get<0>(c), std::get<1>(c), vx * .0002, vy * (-.00003), 1, .16, .32));
             }
             this->enemies.back()->frontline = true;
         }
@@ -58,9 +57,9 @@ namespace model {
             for (int i = 0; i < form.size() / length; i++) {
                 for (int j = 0; j < length; j++) {
                     if (form[i * length + j]) {
-                        this->shields.push_back(std::make_shared<ShieldBlock>(
+                        this->shields.push_back(std::make_shared<Entity>(
                                 -3.5 + j * 0.1 + n * (length * .1 + (7 - n_shields * 0.1 * length) / (n_shields - 1)),
-                                -1 + i * 0.1));
+                                -1 + i * 0.1, 0, 0, 1, .1, .1));
                     }
                 }
             }

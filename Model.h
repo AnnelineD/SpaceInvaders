@@ -14,11 +14,11 @@
 namespace model{
     class Model {
     public:
-        std::shared_ptr<Player> player;
-        std::list<std::shared_ptr<Bullet>> p_bullets;
-        std::list<std::shared_ptr<Enemy>> enemies;
-        std::list<std::shared_ptr<Bullet>> e_bullets;
-        std::list<std::shared_ptr<ShieldBlock>> shields;
+        std::shared_ptr<Entity> player;
+        std::list<std::shared_ptr<Entity>> p_bullets;
+        std::list<std::shared_ptr<Entity>> enemies;
+        std::list<std::shared_ptr<Entity>> e_bullets;
+        std::list<std::shared_ptr<Entity>> shields;
 
         //constructor
         explicit Model(const std::string& filename);
