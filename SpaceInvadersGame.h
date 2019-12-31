@@ -15,7 +15,7 @@
 class SpaceInvadersGame {
     std::shared_ptr<model::Model> model;
     std::shared_ptr<view::View> view;
-    Controller controller;
+    controller::Controller controller;
 
 public:
     explicit SpaceInvadersGame(const std::string& filename);

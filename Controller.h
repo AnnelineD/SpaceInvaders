@@ -1,5 +1,5 @@
 //
-// Created by anneline on 11/27/19.
+// Created by Anneline Daggelinckx on 11/27/19.
 //
 
 #ifndef SPACEINVADERS_CONTROLLER_H
@@ -9,15 +9,30 @@
 #include "Model.h"
 #include "View.h"
 
-class Controller {
-public:
+namespace controller {
+    /**
+     * class controller from the MVC pattern
+     */
+    class Controller {
+        std::shared_ptr<view::View> view;
+        std::shared_ptr<model::Model> model;
+    public:
+        Controller() = default;
+        Controller(std::shared_ptr<model::Model> model, std::shared_ptr<view::View> view);
 
-    void handleEvent(float dt, sf::Event &event);
-    void update(float dt);
+        /**
+         * handles event when one occured (for example user presses key)
+         * @param dt
+         * @param event
+         */
+        void handleEvent(float dt, sf::Event &event);
 
-    std::shared_ptr<view::View> view;
-    std::shared_ptr<model::Model> model;
-};
+        /**
+         * updates that have to happen every frame
+         */
+        void update(float dt);
+    };
+}
 
 
 #endif //SPACEINVADERS_CONTROLLER_H

@@ -38,6 +38,9 @@ namespace view {
     public:
         View(int width, int height);
 
+        /**
+         * Draws al the data member sprites on screen
+         */
         void render();
 
         sf::RenderWindow window;

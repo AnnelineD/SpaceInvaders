@@ -35,8 +35,7 @@ SpaceInvadersGame::SpaceInvadersGame(const std::string& filename) {
         s->addObserver(this->view->shield_sprite.back());
     }
 
-    this->controller.view = this->view;
-    this->controller.model = this->model;
+    this->controller = controller::Controller(this->model, this->view);
 }
 
 void SpaceInvadersGame::start() {
@@ -54,7 +53,7 @@ void SpaceInvadersGame::start() {
     while (view->window.isOpen()) {
         Stopwatch::Instance()->restart();
 
-        controller.update(delta_time);
+        controller.update((float)delta_time);
         view->render();
 
         sf::Event event;
@@ -63,7 +62,7 @@ void SpaceInvadersGame::start() {
             if (event.type == sf::Event::Closed)
                 view->window.close();
             else
-                controller.handleEvent(delta_time, event);
+                controller.handleEvent((float)delta_time, event);
         }
         delta_time = (Stopwatch::Instance()->elapsed()); //milli seconds
     }
