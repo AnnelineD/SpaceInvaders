@@ -1,17 +1,20 @@
 //
-// Created by anneline on 11/27/19.
+// Created by Anneline Daggelinckx on 11/27/19.
 //
 
 #ifndef SPACEINVADERS_MODEL_H
 #define SPACEINVADERS_MODEL_H
 
-#include "Entity.h"
 #include <list>
 #include <memory>
 #include <iostream>
 #include "INIReader.h"
+#include "Entity.h"
 
 namespace model{
+    /**
+     * class that holds all game state
+     */
     class Model {
     public:
         std::shared_ptr<Entity> player;
@@ -20,7 +23,10 @@ namespace model{
         std::list<std::shared_ptr<Entity>> e_bullets;
         std::list<std::shared_ptr<Entity>> shields;
 
-        //constructor
+        /**
+         * load world state from specification file
+         * @param filename ini file
+         */
         explicit Model(const std::string& filename);
 
     private:
