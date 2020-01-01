@@ -7,7 +7,5 @@ As starships are coming down, you do everything you can to prevent the war minde
 ## Rules
 Shoot the starships out of the sky, and dodge their bullets by hiding behind the shields. If your health is 0 or the starships can land on the surface, you lose.
 
-
 ## Controlls
-
-Press 
+Use arrow keys to move left and right. To shoot, press space or up.
