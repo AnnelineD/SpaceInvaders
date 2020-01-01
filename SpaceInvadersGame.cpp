@@ -6,17 +6,10 @@
 #include "SpaceInvadersGame.h"
 #include "Stopwatch.h"
 
-SpaceInvadersGame::SpaceInvadersGame(const std::string& filename) {
+void SpaceInvadersGame::load(const std::string& filename) {
     this->view = std::make_shared<view::View>(800, 600);
 
-    try{
-        this->model = std::make_shared<model::Model>(filename);
-    }
-    catch (std::exception &e) {
-        std::cerr << e.what();
-        return;
-        //TODO ???
-    }
+    this->model = std::make_shared<model::Model>(filename);
 
     this->model->player->addObserver(this->view->player_sprite);
     this->view->player_sprite->setEntity(this->model->player);
@@ -39,6 +32,8 @@ SpaceInvadersGame::SpaceInvadersGame(const std::string& filename) {
 }
 
 void SpaceInvadersGame::start() {
+
+    //play music
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile("../resources/david-bowie-life-on-mars.wav"))
         std::cout << "Couldn't load sound" << std::endl;
@@ -51,6 +46,7 @@ void SpaceInvadersGame::start() {
     double delta_time = 2;
 
     while (view->window.isOpen()) {
+        //restart stopwatch to see how much time has passed when the loop ends
         Stopwatch::Instance()->restart();
 
         controller.update((float)delta_time);

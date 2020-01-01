@@ -1,16 +1,19 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <memory>
-
-#include "View.h"
-#include "Controller.h"
-#include "Stopwatch.h"
 #include "SpaceInvadersGame.h"
 
 
 int main() {
-    SpaceInvadersGame game("../testLevel.ini");
+
+    SpaceInvadersGame game;
+
+    try{
+        game.load("../testLevel2.ini");
+    }
+    catch (std::exception &e) {
+        std::cerr << "Fatal error occured: " << e.what() << std::endl << "exiting...";
+        return -1;
+    }
+
     game.start();
 
     return 0;

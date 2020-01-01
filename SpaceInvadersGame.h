@@ -18,7 +18,16 @@ class SpaceInvadersGame {
     controller::Controller controller;
 
 public:
-    explicit SpaceInvadersGame(const std::string& filename);
+    SpaceInvadersGame() = default;
+    /**
+     * load a level file to play the game with
+     * @param filename an ini file
+     */
+    void load(const std::string& filename);
+
+    /**
+     * starts the game
+     */
     void start();
 };
 

@@ -7,9 +7,9 @@
 
 namespace view{
 
-    Sprite::Sprite(std::string filename) {
+    Sprite::Sprite(const std::string& filename) {
         if (!sprite_texture.loadFromFile(filename)) {
-            throw std::invalid_argument("Couldn't load image for shields : " + filename);
+            throw std::invalid_argument("Couldn't load image : " + filename);
         }
         sprite.setTexture(sprite_texture);
     }

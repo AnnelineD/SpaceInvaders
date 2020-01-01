@@ -22,7 +22,7 @@ namespace view {
 
         //constructors
         Sprite() = default;
-        explicit Sprite(std::string filename);
+        explicit Sprite(const std::string& filename);
 
         //methods
         /**

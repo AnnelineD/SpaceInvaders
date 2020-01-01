@@ -1,5 +1,5 @@
 //
-// Created by ubuntu on 11/23/19.
+// Created by Anneline Daggelinckx on 11/23/19.
 //
 
 #ifndef SPACEINVADERS_ENTITY_H

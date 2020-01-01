@@ -6,12 +6,11 @@
 #include <iostream>
 
 namespace view {
-    View::View(int width, int height) try : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
+    View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
         if (!background_texture.loadFromFile("../resources/mars_planeet.jpg")) {}
-        if (!font.loadFromFile("../resources/ScifiAdventure.otf")) {}
-    } catch (...) {
-        std::cout << "Could not load window, exiting..." << std::endl;
-        throw 1;
+        if (!font.loadFromFile("../resources/ScifiAdventure.otf")) {
+            throw std::invalid_argument("Couldn't load font");
+        }
     }
 
     void View::render() {

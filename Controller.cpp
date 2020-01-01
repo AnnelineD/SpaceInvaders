@@ -1,5 +1,5 @@
 //
-// Created by anneline on 11/27/19.
+// Created by Anneline Daggelinckx on 11/27/19.
 //
 
 #include "Controller.h"
@@ -16,8 +16,6 @@ namespace controller {
 
     void Controller::handleEvent(float dt, sf::Event &event) {
 
-        //TODO Enemys schieten
-        //TODO player schiet
 
         //move player
         switch (event.key.code) {
@@ -92,6 +90,10 @@ namespace controller {
                 e->changeDirection();
             }
             e->move(dt);
+        }
+
+        if(this->model->enemies.back()->y <= -3){
+            this->model->player->health = 0;
         }
 
         //enemy shoot
