@@ -18,6 +18,7 @@ namespace view {
 
         window.draw(sf::Sprite(background_texture));
 
+        //can't iterate over a list while deleting elements of that list
         auto shield_sprite_ = this->shield_sprite;
         for (const auto &s: shield_sprite_) {
             if (s->to_be_deleted) {
@@ -35,7 +36,6 @@ namespace view {
             this->window.draw(b->sprite);
         }
 
-
         auto e_bullet_sprite_ = this->e_bullet_sprite;
         for (const auto &b: e_bullet_sprite_) {
             if (b->to_be_deleted) {
@@ -44,7 +44,7 @@ namespace view {
             this->window.draw(b->sprite);
         }
 
-        std::list<std::shared_ptr<EnemySprite>> enemy_sprites_ = this->enemy_sprites;
+       auto enemy_sprites_ = this->enemy_sprites;
         for (const auto &e: enemy_sprites_) {
             if (e->to_be_deleted) {
                 this->enemy_sprites.remove(e);

@@ -1,5 +1,5 @@
 //
-// Created by ubuntu on 11/23/19.
+// Created by Anneline Daggelinckx on 11/23/19.
 //
 
 #ifndef SPACEINVADERS_SPACEINVADERSGAME_H
@@ -11,12 +11,13 @@
 #include "View.h"
 #include "Controller.h"
 
-
+/**
+ * represents the game and contains MVC
+ */
 class SpaceInvadersGame {
     std::shared_ptr<model::Model> model;
     std::shared_ptr<view::View> view;
     controller::Controller controller;
-
 public:
     SpaceInvadersGame() = default;
     /**
@@ -26,7 +27,7 @@ public:
     void load(const std::string& filename);
 
     /**
-     * starts the game
+     * holds the gameloop
      */
     void start();
 };

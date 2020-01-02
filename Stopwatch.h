@@ -1,5 +1,5 @@
 //
-// Created by anneline on 12/8/19.
+// Created by Anneline Daggelinckx on 12/8/19.
 //
 
 #ifndef SPACEINVADERS_STOPWATCH_H

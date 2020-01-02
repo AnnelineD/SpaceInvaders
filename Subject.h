@@ -26,7 +26,7 @@ public:
     void addObserver(const std::shared_ptr<Observer>& observerPtr);
 
     /**
-     * updates all linked observers
+     * calls update on all linked observers
      */
     void notify() const;
 };

@@ -20,11 +20,12 @@ namespace view {
         std::shared_ptr<model::Entity> entity; //the entity that the sprite is representing
         bool to_be_deleted = false; //when the entity is dead the sprite has to be deleted
 
-        //constructors
-        Sprite() = default;
+        /**
+         * load texture from file
+         * @param filename image file
+         */
         explicit Sprite(const std::string& filename);
 
-        //methods
         /**
          * Sets the entity of the sprite, and sets the position of the sprite in pixel coordinates
          * @param e is a shared pointer to the entity that represents the sprite

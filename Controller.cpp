@@ -15,8 +15,6 @@ namespace controller {
 
 
     void Controller::handleEvent(float dt, sf::Event &event) {
-
-
         //move player
         switch (event.key.code) {
             case sf::Keyboard::Left:
@@ -44,7 +42,6 @@ namespace controller {
                 }
                 break;
             case sf::Keyboard::Escape:
-                std::cout << event.key.code;
                 view->window.close();
                 break;
             default:

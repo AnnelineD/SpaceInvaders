@@ -7,7 +7,7 @@ add_executable(SpaceInvaders main.cpp
         Controller.cpp Controller.h
         Entity.cpp Entity.h
         Model.cpp Model.h
-        Observer.cpp Observer.h
+        Observer.h
         SpaceInvadersGame.cpp SpaceInvadersGame.h
         Sprite.cpp Sprite.h
         Stopwatch.cpp Stopwatch.h

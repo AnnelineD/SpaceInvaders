@@ -1,5 +1,5 @@
 //
-// Created by ubuntu on 11/23/19.
+// Created by Anneline Daggelinckx on 11/23/19.
 //
 
 #include <SFML/Audio.hpp>
@@ -15,7 +15,6 @@ void SpaceInvadersGame::load(const std::string& filename) {
     this->view->player_sprite->setEntity(this->model->player);
 
 
-    //TODO zet volgende 2 loops in view
     for (auto& i : this->model->enemies){
         this->view->enemy_sprites.push_back(std::make_shared<view::EnemySprite>());
         this->view->enemy_sprites.back()->entity = i;
@@ -54,11 +53,13 @@ void SpaceInvadersGame::start() {
 
         sf::Event event;
         //handle event
-        while ((Stopwatch::Instance()->elapsed() < 10) && view->window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                view->window.close();
-            else
-                controller.handleEvent((float)delta_time, event);
+        while (Stopwatch::Instance()->elapsed() < 10){
+            if (view->window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed)
+                    view->window.close();
+                else
+                    controller.handleEvent((float) delta_time, event);
+            }
         }
         delta_time = (Stopwatch::Instance()->elapsed()); //milli seconds
     }

@@ -1,5 +1,5 @@
 //
-// Created by anneline on 12/25/19.
+// Created by Anneline Daggelinckx on 12/25/19.
 //
 
 #ifndef SPACEINVADERS_TRANSFORMATION_H

@@ -18,6 +18,12 @@ namespace controller {
         std::shared_ptr<model::Model> model;
     public:
         Controller() = default;
+
+        /**
+         * Populate model and view
+         * @param model
+         * @param view
+         */
         Controller(std::shared_ptr<model::Model> model, std::shared_ptr<view::View> view);
 
         /**
@@ -28,7 +34,7 @@ namespace controller {
         void handleEvent(float dt, sf::Event &event);
 
         /**
-         * updates that have to happen every frame
+         * updates that have to happen every tick
          */
         void update(float dt);
     };

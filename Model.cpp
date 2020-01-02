@@ -12,7 +12,7 @@ namespace model {
             throw std::invalid_argument("Can't load " + filename + "\n");
         }
 
-        this->player = std::make_shared<Entity>(0, -2.5, .1, 0, 3, .32, .32);
+        this->player = std::make_shared<Entity>(0, -2.5, .01, 0, 3, .32, .32);
         this->player->health = (int) reader.GetInteger("player", "health", 3);
 
         int x_enemies = (int) reader.GetInteger("enemies", "enemiesPerRow", 6);
@@ -66,7 +66,7 @@ namespace model {
     void Model::initializeEnemies(int x, int y, float vx, float vy) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                this->enemies.push_back(std::make_shared<Entity>(-4 + i * .5, -2.5 + j*.5, vx * .0002, vy * (-.00003), 1, .16, .32));
+                this->enemies.push_back(std::make_shared<Entity>(-4 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003), 1, .16, .32));
             }
             this->enemies.back()->frontline = true;
         }
