@@ -16,13 +16,13 @@ namespace controller {
         //move player
         switch (event.key.code) {
             case sf::Keyboard::Left:
-                if (model->player->x - .1 * dt > -4.1) {
+                if (model->player->x + model->player->width/2 - .1*dt > -4) {
                     model->player->move(-dt);
                 }
                 break;
             case sf::Keyboard::Right:
                 //check that player doesn't go out of view before moving
-                if (model->player->x + .1 * dt < 4.1 - model->player->width) {
+                if (model->player->x - model->player->width/2 + .1*dt < 4) {
                     model->player->move(dt);
                 }
                 break;
@@ -93,7 +93,8 @@ namespace controller {
         }
 
         //the "enemy block" changes direction when the most left of right enemies hit the side of the screen
-        bool change_direction = model->enemies.back()->x >= 4 || model->enemies.front()->x <= -4;
+        bool change_direction = model->enemies.back()->x + model->enemies.back()->width/2 >= 4
+                || model->enemies.front()->x - model->enemies.back()->width/2 <= -4;
 
         for (auto &e:model->enemies) {
             if (change_direction) {
@@ -106,9 +107,9 @@ namespace controller {
         std::random_device rd;
         std::mt19937 mt(rd());
         for (auto &e : model->enemies) {
-            std::uniform_real_distribution<double> dist(0, 4000);
-            //an enemy can't shoot twice in 0.4 seconds and has to be on the frontline to shoot
-            if (dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 3000 && e->frontline) {
+            std::uniform_real_distribution<double> dist(0, 1000);
+            //an enemy can't shoot twice in 2 seconds and has to be on the frontline to shoot
+            if (dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 2000 && e->frontline) {
                 model->e_bullets.push_back(std::make_shared<model::Entity>(e->x, e->y, 0, -0.003, 1, .05, .1));
                 model->e_bullets.back()->setSpeed(0, -0.003);
                 view->enemy_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());

@@ -16,9 +16,9 @@ namespace model{
         notify();
     }
 
-    void Entity::setSpeed(float vx, float vy) {
-        vx = vx;
-        vy = vy;
+    void Entity::setSpeed(float new_vx, float new_vy) {
+        vx = new_vx;
+        vy = new_vy;
     }
 
     void Entity::changeDirection() {
@@ -26,8 +26,8 @@ namespace model{
     }
 
     bool Entity::collidesWith(const Entity &e) const {
-        return (x < e.x + e.width &&
-                x + width > e.x &&
+        return (x - width/2 < e.x + e.width/2 &&
+                x + width/2 > e.x - e.width/2 &&
                 y < e.y + e.height &&
                 y + height > e.y);
     }
