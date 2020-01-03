@@ -16,17 +16,17 @@ namespace view{
 
     void Sprite::setEntity(std::shared_ptr <model::Entity> e) {
         entity = std::move(e);
-        auto [x, y] = Transformation::Instance()->toScreen({this->entity->x, this->entity->y});
-        this->sprite.setPosition(x, y);
+        auto [x, y] = Transformation::Instance()->toScreen({entity->x - entity->width/2, entity->y});
+        sprite.setPosition(x, y);
     }
 
     void Sprite::update() {
         //when the entity is dead the sprite has to be deleted
-        if(this->entity->health <= 0){
-            this->to_be_deleted = true;
+        if(entity->health <= 0){
+            to_be_deleted = true;
         } else{
-            auto [x, y] = Transformation::Instance()->toScreen({this->entity->x, this->entity->y});
-            this->sprite.setPosition(x, y);
+            auto [x, y] = Transformation::Instance()->toScreen({entity->x - entity->width/2, entity->y});
+            sprite.setPosition(x, y);
         }
     }
 }

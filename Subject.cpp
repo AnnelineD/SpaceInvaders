@@ -8,7 +8,7 @@ void Subject::addObserver(const std::shared_ptr<Observer>& observerPtr) {
     m_observer_list.push_back(observerPtr);
 }
 
-void Subject::notify() const{
+void Subject::notify() const {
     for(const auto& m_obs: m_observer_list){
         m_obs->update();
     }

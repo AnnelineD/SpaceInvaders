@@ -9,12 +9,10 @@
 #include <utility>
 
 namespace controller {
-
-
     Controller::Controller(std::shared_ptr<model::Model> model, std::shared_ptr<view::View> view) : model(std::move(model)), view(std::move(view)) {}
 
 
-    void Controller::handleEvent(float dt, sf::Event &event) {
+    void Controller::handleEvent(float dt, const sf::Event &event) {
         //move player
         switch (event.key.code) {
             case sf::Keyboard::Left:
@@ -34,9 +32,9 @@ namespace controller {
                 if (Stopwatch::Instance()->elapsed(model->player->last_shot) > 400) {
                     model->p_bullets.push_back(
                             std::make_shared<model::Entity>(model->player->x, model->player->y, 0, 0.007, 1, .05, .1));
-                    view->p_bullet_sprite.push_back(std::make_shared<view::BulletSprite>());
-                    view->p_bullet_sprite.back()->setEntity(model->p_bullets.back());
-                    model->p_bullets.back()->addObserver(view->p_bullet_sprite.back());
+                    view->player_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
+                    view->player_bullet_sprites.back()->setEntity(model->p_bullets.back());
+                    model->p_bullets.back()->addObserver(view->player_bullet_sprites.back());
 
                     model->player->last_shot = Stopwatch::Instance()->now();
                 }
@@ -47,6 +45,21 @@ namespace controller {
             default:
                 break;
         }
+    }
+
+    std::tuple<bool, bool> Controller::continueState() const {
+        //   proceed, win
+
+        if (model->enemies.empty())
+            return {false, true};
+
+        if (model->enemies.back()->y <= -3)
+            return {false, false};
+
+        if (model->player->health <= 0)
+            return {false, false};
+
+        return {true, false};
     }
 
     void Controller::update(float dt) {
@@ -89,10 +102,6 @@ namespace controller {
             e->move(dt);
         }
 
-        if(this->model->enemies.back()->y <= -3){
-            this->model->player->health = 0;
-        }
-
         //enemy shoot
         std::random_device rd;
         std::mt19937 mt(rd());
@@ -102,9 +111,9 @@ namespace controller {
             if (dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 3000 && e->frontline) {
                 model->e_bullets.push_back(std::make_shared<model::Entity>(e->x, e->y, 0, -0.003, 1, .05, .1));
                 model->e_bullets.back()->setSpeed(0, -0.003);
-                view->e_bullet_sprite.push_back(std::make_shared<view::BulletSprite>());
-                view->e_bullet_sprite.back()->entity = model->e_bullets.back();
-                model->e_bullets.back()->addObserver(view->e_bullet_sprite.back());
+                view->enemy_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
+                view->enemy_bullet_sprites.back()->entity = model->e_bullets.back();
+                model->e_bullets.back()->addObserver(view->enemy_bullet_sprites.back());
 
                 e->last_shot = Stopwatch::Instance()->now();
             }
@@ -171,5 +180,4 @@ namespace controller {
             }
         }
     }
-
 }

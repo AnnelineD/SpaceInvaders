@@ -31,8 +31,8 @@ namespace model{
 
     private:
         void initializeEnemies(int x, int y, float vx, float vy);
-        void initializeShields(int n, int length, std::vector<bool> form);
-        std::tuple<std::vector<bool>, int> parseShieldForm(const std::string& spec);
+        void initializeShields(int n, int length, const std::vector<bool>& form);
+        [[nodiscard]] std::tuple<std::vector<bool>, int> parseShieldForm(const std::string& spec) const;
     };
 }
 

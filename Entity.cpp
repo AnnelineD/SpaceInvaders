@@ -11,29 +11,29 @@ namespace model{
             coordx), y(coordy), vx(xSpeed), vy(ySpeed), health(health), width(width), height(height) {}
 
     void Entity::move(float dt){
-        this->x += dt * this->vx;
-        this->y += dt * this->vy;
+        x += dt * vx;
+        y += dt * vy;
         notify();
     }
 
     void Entity::setSpeed(float vx, float vy) {
-        this->vx = vx;
-        this->vy = vy;
+        vx = vx;
+        vy = vy;
     }
 
     void Entity::changeDirection() {
-        this->vx = -this->vx;
+        vx = -vx;
     }
 
     bool Entity::collidesWith(const Entity &e) const {
-        return (this->x < e.x + e.width &&
-                this->x + this->width > e.x &&
-                this->y < e.y + e.height &&
-                this->y + this->height > e.y);
+        return (x < e.x + e.width &&
+                x + width > e.x &&
+                y < e.y + e.height &&
+                y + height > e.y);
     }
 
     bool Entity::setHealth(int i) {
-        this->health = i;
+        health = i;
         notify();
         return (health >=1);
     }

@@ -31,12 +31,18 @@ namespace controller {
          * @param dt
          * @param event
          */
-        void handleEvent(float dt, sf::Event &event);
+        void handleEvent(float dt, const sf::Event &event);
 
         /**
          * updates that have to happen every tick
          */
         void update(float dt);
+
+        /**
+         * checks stop and win conditions, return state tuple
+         * @return {proceed, win}
+         */
+        [[nodiscard]] std::tuple<bool, bool> continueState() const;
     };
 }
 

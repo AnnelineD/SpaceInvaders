@@ -12,8 +12,8 @@ namespace model {
             throw std::invalid_argument("Can't load " + filename + "\n");
         }
 
-        this->player = std::make_shared<Entity>(0, -2.5, .01, 0, 3, .32, .32);
-        this->player->health = (int) reader.GetInteger("player", "health", 3);
+        player = std::make_shared<Entity>(0, -2.5, .01, 0, 3, .64, .32);
+        player->health = (int) reader.GetInteger("player", "health", 3);
 
         int x_enemies = (int) reader.GetInteger("enemies", "enemiesPerRow", 6);
         if (x_enemies > 20 || x_enemies < 1) {
@@ -66,18 +66,18 @@ namespace model {
     void Model::initializeEnemies(int x, int y, float vx, float vy) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                this->enemies.push_back(std::make_shared<Entity>(-4 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003), 1, .16, .32));
+                enemies.push_back(std::make_shared<Entity>(-3.9 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003), 1, .16, .32));
             }
-            this->enemies.back()->frontline = true;
+            enemies.back()->frontline = true;
         }
     }
 
-    void Model::initializeShields(int n_shields, int length, std::vector<bool> form) {
+    void Model::initializeShields(int n_shields, int length, const std::vector<bool>& form) {
         for (int n = 0; n < n_shields; n++) {
             for (int i = 0; (long)i < form.size() / length; i++) { //vertical
                 for (int j = 0; j < length; j++) { //horizontal
                     if (form[i * length + j]) {
-                        this->shields.push_back(std::make_shared<Entity>(
+                        shields.push_back(std::make_shared<Entity>(
                                 -3.5 + j * 0.1 + n * (length * .1 + (7 - n_shields * 0.1 * length) / (n_shields - 1)),
                                 -1 + i * -0.1, 0, 0, 1, .1, .1));
                     }
@@ -86,7 +86,7 @@ namespace model {
         }
     }
 
-    std::tuple<std::vector<bool>, int> Model::parseShieldForm(const std::string& spec) {
+    std::tuple<std::vector<bool>, int> Model::parseShieldForm(const std::string& spec) const {
         std::vector<bool> form;
         int length = -1; //don't check on first iteration
         int current = 0;

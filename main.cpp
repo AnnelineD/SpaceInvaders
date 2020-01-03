@@ -2,16 +2,16 @@
 #include "SpaceInvadersGame.h"
 
 
-int main() {
-
+int main(int argc, char* argv[]) {
     SpaceInvadersGame game;
 
     try{
-        game.load("../testLevel2.ini");
+        // arv + 1, not interested in first argument as it is the executable
+        game.load(std::vector<std::string> { argv + 1, argv + argc });
     }
     catch (std::exception &e) {
-        std::cerr << "Fatal error occured: " << e.what() << std::endl << "exiting...";
-        return -1;
+        std::cerr << "Fatal error occured: " << e.what() << std::endl << "exiting...\n";
+        return 1;
     }
 
     game.start();

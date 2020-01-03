@@ -3,91 +3,100 @@
 //
 
 #include "View.h"
+#include "Stopwatch.h"
 #include <iostream>
 
 namespace view {
     View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
-        if (!background_texture.loadFromFile("../resources/mars_planeet.jpg")) {}
-        if (!font.loadFromFile("../resources/ScifiAdventure.otf")) {
+        if (!background_texture.loadFromFile("../resources/mars_planeet.jpg"))
+            std::cerr << "Continuing with black background\n";
+
+        if (!lives_texture.loadFromFile("../resources/alien.png"))
+            std::cerr << "Continuing with numeric lives counter\n";
+
+        if (!font.loadFromFile("../resources/ScifiAdventure.otf"))
             throw std::invalid_argument("Couldn't load font");
-        }
     }
 
     void View::render() {
-        this->window.clear();
+        window.clear();
 
         window.draw(sf::Sprite(background_texture));
 
+        drawContainer(shieldblock_sprites);
+        drawContainer(player_bullet_sprites);
+        drawContainer(enemy_bullet_sprites);
+        drawContainer(enemy_sprites);
+
+        if (player_sprite->entity->health > 0)
+            window.draw(player_sprite->sprite);
+
+        drawLives();
+        drawText();
+
+        window.display();
+    }
+
+    void View::drawContainer(std::list<std::shared_ptr<view::Sprite>>& container) {
         //can't iterate over a list while deleting elements of that list
-        auto shield_sprite_ = this->shield_sprite;
-        for (const auto &s: shield_sprite_) {
-            if (s->to_be_deleted) {
-                this->shield_sprite.remove(s);
-            } else {
-                this->window.draw(s->sprite);
+        auto container_ = container;
+        for (const auto &e: container_) {
+            if (e->to_be_deleted)
+                container.remove(e);
+            else
+                window.draw(e->sprite);
+        }
+    }
+
+    void View::drawLives() {
+        // if texture could not load, x is 0, and we fall back on numeric display
+        static float lives_texture_width = lives_texture.getSize().x;
+        if ((int)lives_texture_width) {
+            auto lives_spite = sf::Sprite(lives_texture);
+            lives_spite.scale(25.f/lives_texture_width, 25.f/lives_texture_width);
+
+            for (int live = 0; live < player_sprite->entity->health; live++) {
+                lives_spite.setPosition((float)(30 + live*45), 30);
+                window.draw(lives_spite);
             }
-        }
-
-        auto p_bullet_sprite_ = this->p_bullet_sprite;
-        for (const auto &b: p_bullet_sprite_) {
-            if (b->to_be_deleted) {
-                this->p_bullet_sprite.remove(b);
-            }
-            this->window.draw(b->sprite);
-        }
-
-        auto e_bullet_sprite_ = this->e_bullet_sprite;
-        for (const auto &b: e_bullet_sprite_) {
-            if (b->to_be_deleted) {
-                this->e_bullet_sprite.remove(b);
-            }
-            this->window.draw(b->sprite);
-        }
-
-       auto enemy_sprites_ = this->enemy_sprites;
-        for (const auto &e: enemy_sprites_) {
-            if (e->to_be_deleted) {
-                this->enemy_sprites.remove(e);
-            } else {
-                this->window.draw(e->sprite);
-            }
-        }
-
-        if (this->enemy_sprites.empty()) {
-            sf::Text text;
-            text.setFont(font);
-            text.setString("YOU WON");
-
-            text.setCharacterSize(50);
-            text.setFillColor(sf::Color::Magenta);
-            text.setPosition(100, (float) this->window.getSize().y / 2);
-            this->window.draw(text);
-        }
-
-        if (this->player_sprite->entity->health > 0) {
-            this->window.draw(this->player_sprite->sprite);
-
         } else {
             sf::Text text;
             text.setFont(font);
-            text.setString("GAME OVER");
-
-            text.setCharacterSize(50);
-            text.setFillColor(sf::Color::Magenta);
-            text.setPosition(100, (float) this->window.getSize().y / 2);
-            this->window.draw(text);
+            text.setString(std::to_string(player_sprite->entity->health));
+            text.setCharacterSize(25);
+            text.setFillColor(sf::Color(255, 255, 255));
+            text.setPosition(30, 30);
+            window.draw(text);
         }
 
+    }
+
+    void View::drawText() {
+        double elapsed_ratio = Stopwatch::Instance()->elapsed(text_first_draw)/5500;
+        if (elapsed_ratio > 1)
+            return;
 
         sf::Text text;
         text.setFont(font);
-        text.setString(std::to_string(this->player_sprite->entity->health));
+        text.setString(main_text);
+        text.setCharacterSize((unsigned int) (30*650/text.getLocalBounds().width));
+        text.setFillColor(sf::Color(255, 255, 255, 255 - 150*elapsed_ratio));
+        text.setPosition(100, (float) .5*window.getSize().y);
+        window.draw(text);
 
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::Magenta);
-        text.setPosition(20, 20);
-        this->window.draw(text);
+        sf::Text instruction;
+        instruction.setFont(font);
+        instruction.setString(side_text);
+        instruction.setCharacterSize((unsigned int) (30*650/instruction.getLocalBounds().width));
+        instruction.setFillColor(sf::Color(255, 255, 255, 255 - 150*elapsed_ratio));
+        instruction.setPosition(100, (float) .8*window.getSize().y);
+        window.draw(instruction);
+    }
 
-        this->window.display();
+
+    void View::display(const std::string& text, const std::string& instruction = "") {
+        main_text = text;
+        side_text = instruction;
+        text_first_draw = Stopwatch::Instance()->now();
     }
 }

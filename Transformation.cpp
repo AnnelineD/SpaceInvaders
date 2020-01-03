@@ -22,11 +22,9 @@ Transformation* Transformation::Instance() {
  * @param gameCoordinates are the logic coordinates we want to convert
  * @return the pixel coordinates that match the given game coordinates
  */
-std::tuple<float, float> Transformation::toScreen(std::tuple<float, float> gameCoordinates) {
-    float x = std::get<0>(gameCoordinates)*100 + 400;
-    float y = -(std::get<1>(gameCoordinates)*100 - 300);
-
-    return std::make_tuple(x, y);
+std::tuple<float, float> Transformation::toScreen(std::tuple<float, float> gameCoordinates) const {
+    auto [x, y] = gameCoordinates;
+    return {x*100 + 400, -y*100 + 300};
 }
 
 /**
@@ -34,9 +32,7 @@ std::tuple<float, float> Transformation::toScreen(std::tuple<float, float> gameC
  * @param screenCoordinates is a tuple of the pixel coordinates we want to convert
  * @return the logic coordinates that match the given pixel coordinates
  */
-std::tuple<float, float> Transformation::toLogic(std::tuple<float, float> screenCoordinates) {
-    float x = std::get<0>(screenCoordinates)/100 - 4;
-    float y = -(std::get<1>(screenCoordinates)/100 - 3);
-
-    return std::make_tuple(x, y);
+std::tuple<float, float> Transformation::toLogic(std::tuple<float, float> screenCoordinates) const {
+    auto [x, y] = screenCoordinates;
+    return {x/100 - 4, y/100 - 3};
 }
