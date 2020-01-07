@@ -8,13 +8,13 @@
 
 namespace view {
     View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
-        if (!background_texture.loadFromFile("../resources/mars_planeet.jpg"))
+        if (!background_texture.loadFromFile("resources/mars_planeet.jpg"))
             std::cerr << "Continuing with black background\n";
 
-        if (!lives_texture.loadFromFile("../resources/alien.png"))
+        if (!lives_texture.loadFromFile("resources/alien.png"))
             std::cerr << "Continuing with numeric lives counter\n";
 
-        if (!font.loadFromFile("../resources/ScifiAdventure.otf"))
+        if (!font.loadFromFile("resources/ScifiAdventure.otf"))
             throw std::invalid_argument("Couldn't load font");
     }
 

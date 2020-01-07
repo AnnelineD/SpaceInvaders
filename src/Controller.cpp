@@ -29,7 +29,7 @@ namespace controller {
             case sf::Keyboard::Up:
             case sf::Keyboard::Space:
                 // check time between shoots so that player does't have a machine gun
-                if (Stopwatch::Instance()->elapsed(model->player->last_shot) > 400) {
+                if (Stopwatch::Instance()->elapsed(model->player->last_shot) > 750) {
                     model->p_bullets.push_back(
                             std::make_shared<model::Entity>(model->player->x, model->player->y, 0, 0.007, 1, .05, .1));
                     view->player_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());

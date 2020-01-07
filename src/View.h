@@ -16,22 +16,22 @@
 namespace view {
     class PlayerSprite : public Sprite {
     public:
-        PlayerSprite() : Sprite("../resources/spaceshipwide.png"){};
+        PlayerSprite() : Sprite("resources/spaceshipwide.png"){};
     };
 
     class EnemySprite : public Sprite {
     public:
-        EnemySprite() : Sprite("../resources/starship.png"){};
+        EnemySprite() : Sprite("resources/starship.png"){};
     };
 
     class BulletSprite : public Sprite {
     public:
-        BulletSprite() : Sprite("../resources/bullet.png"){};
+        BulletSprite() : Sprite("resources/bullet.png"){};
     };
 
     class ShieldSprite : public Sprite {
     public:
-        ShieldSprite() : Sprite("../resources/shieldblock.png") {};
+        ShieldSprite() : Sprite("resources/shieldblock.png") {};
     };
 
     /**

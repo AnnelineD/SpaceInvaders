@@ -20,6 +20,10 @@ void SpaceInvadersGame::load(const std::vector<std::string>& filenames) {
 }
 
 void SpaceInvadersGame::loadNextLevel() {
+    // bring over lives
+    if (model)
+        levels.front()->player->health = model->player->health;
+
     model = levels.front();
     levels.pop_front();
 
@@ -50,7 +54,7 @@ void SpaceInvadersGame::start() {
 
     //play music
     sf::SoundBuffer buffer;
-    if (!buffer.loadFromFile("../resources/david-bowie-life-on-mars.wav"))
+    if (!buffer.loadFromFile("resources/david-bowie-life-on-mars.wav"))
         std::cout << "Couldn't load sound" << std::endl;
 
     sf::Sound sound;
