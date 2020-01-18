@@ -1,5 +1,5 @@
 //
-// Created by anneline on 12/25/19.
+// Created by Anneline Daggelinckx on 12/25/19.
 //
 
 #ifndef SPACEINVADERS_TRANSFORMATION_H
@@ -10,8 +10,8 @@
 class Transformation {
 public:
     static Transformation* Instance();
-    std::tuple<float, float> toScreen(std::tuple<float, float> gameCoordinates);
-    std::tuple<float, float> toLogic(std::tuple<float, float> screenCoordinates);
+    [[nodiscard]] std::tuple<float, float> toScreen(std::tuple<float, float> gameCoordinates) const;
+    [[nodiscard]] std::tuple<float, float> toLogic(std::tuple<float, float> screenCoordinates) const;
 
 private:
     Transformation() = default;
