@@ -1,4 +1,6 @@
-add_executable(SpaceInvaders main.cpp
+add_executable( SpaceInvaders
+        ../extern/INIReader.h
+        main.cpp
         Controller.cpp Controller.h
         Entity.cpp Entity.h
         Model.cpp Model.h
@@ -10,7 +12,6 @@ add_executable(SpaceInvaders main.cpp
         Transformation.cpp Transformation.h
         View.cpp View.h)
 
-
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED system window graphics network audio)
 if(SFML_FOUND)
@@ -19,3 +20,4 @@ if(SFML_FOUND)
 endif()
 
 INSTALL(TARGETS SpaceInvaders DESTINATION ${PROJECT_SOURCE_DIR}/bin)
+

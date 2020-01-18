@@ -4,4 +4,5 @@ project(SpaceInvaders)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall")
 
+
 ADD_SUBDIRECTORY(src)
