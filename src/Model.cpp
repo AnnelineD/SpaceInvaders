@@ -12,7 +12,7 @@ namespace model {
             throw std::invalid_argument("Can't load " + filename + "\n");
         }
 
-        player = std::make_shared<Entity>(0, -2.5, .01, 0, 3, .64, .32);
+        player = std::make_shared<Player>();
         player->health = (int) reader.GetInteger("player", "health", 3);
 
         int x_enemies = (int) reader.GetInteger("enemies", "enemiesPerRow", 6);
@@ -66,7 +66,7 @@ namespace model {
     void Model::initializeEnemies(int x, int y, float vx, float vy) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                enemies.push_back(std::make_shared<Entity>(-3.9 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003), 1, .16, .32));
+                enemies.push_back(std::make_shared<Enemy>(-3.9 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003)));
             }
             enemies.back()->frontline = true;
         }
@@ -77,9 +77,9 @@ namespace model {
             for (int i = 0; (long)i < form.size() / length; i++) { //vertical
                 for (int j = 0; j < length; j++) { //horizontal
                     if (form[i * length + j]) {
-                        shields.push_back(std::make_shared<Entity>(
+                        shields.push_back(std::make_shared<ShieldBlock>(
                                 -3.5 + j * 0.1 + n * (length * .1 + (7 - n_shields * 0.1 * length) / (n_shields - 1)),
-                                -1 + i * -0.1, 0, 0, 1, .1, .1));
+                                -1 + i * -0.1));
                     }
                 }
             }

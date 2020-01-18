@@ -9,7 +9,7 @@
 #include <utility>
 
 namespace controller {
-    Controller::Controller(std::shared_ptr<model::Model> model, std::shared_ptr<view::View> view) : model(std::move(model)), view(std::move(view)) {}
+    Controller::Controller(std::shared_ptr<model::Model> model, std::shared_ptr<view::View> view) : view(std::move(view)), model(std::move(model)) {}
 
 
     void Controller::handleEvent(float dt, const sf::Event &event) {
@@ -31,7 +31,7 @@ namespace controller {
                 // check time between shoots so that player does't have a machine gun
                 if (Stopwatch::Instance()->elapsed(model->player->last_shot) > 750) {
                     model->p_bullets.push_back(
-                            std::make_shared<model::Entity>(model->player->x, model->player->y, 0, 0.007, 1, .05, .1));
+                            std::make_shared<model::Bullet>(model->player->x, model->player->y, 0, 0.007));
                     view->player_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
                     view->player_bullet_sprites.back()->setEntity(model->p_bullets.back());
                     model->p_bullets.back()->addObserver(view->player_bullet_sprites.back());
@@ -110,7 +110,7 @@ namespace controller {
             std::uniform_real_distribution<double> dist(0, 1000);
             //an enemy can't shoot twice in 2 seconds and has to be on the frontline to shoot
             if (dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 2000 && e->frontline) {
-                model->e_bullets.push_back(std::make_shared<model::Entity>(e->x, e->y, 0, -0.003, 1, .05, .1));
+                model->e_bullets.push_back(std::make_shared<model::Bullet>(e->x, e->y));
                 model->e_bullets.back()->setSpeed(0, -0.003);
                 view->enemy_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
                 view->enemy_bullet_sprites.back()->entity = model->e_bullets.back();

@@ -8,8 +8,12 @@
 #include <list>
 #include <memory>
 #include <iostream>
-#include "INIReader.h"
+#include "../extern/INIReader.h"
 #include "Entity.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Bullet.h"
+#include "ShieldBlock.h"
 
 namespace model{
     /**
@@ -17,11 +21,11 @@ namespace model{
      */
     class Model {
     public:
-        std::shared_ptr<Entity> player;
-        std::list<std::shared_ptr<Entity>> p_bullets;
-        std::list<std::shared_ptr<Entity>> enemies;
-        std::list<std::shared_ptr<Entity>> e_bullets;
-        std::list<std::shared_ptr<Entity>> shields;
+        std::shared_ptr<Player> player;
+        std::list<std::shared_ptr<Bullet>> p_bullets;
+        std::list<std::shared_ptr<Enemy>> enemies;
+        std::list<std::shared_ptr<Bullet>> e_bullets;
+        std::list<std::shared_ptr<ShieldBlock>> shields;
 
         /**
          * load world state from specification file

@@ -1,14 +1,18 @@
 add_executable( SpaceInvaders
         ../extern/INIReader.h
         main.cpp
+        Bullet.cpp Bullet.h
         Controller.cpp Controller.h
+        Enemy.cpp Enemy.h
         Entity.cpp Entity.h
         Model.cpp Model.h
         Observer.h
+        ShieldBlock.cpp ShieldBlock.h
         SpaceInvadersGame.cpp SpaceInvadersGame.h
         Sprite.cpp Sprite.h
         Stopwatch.cpp Stopwatch.h
         Subject.cpp Subject.h
+        Player.cpp Player.h
         Transformation.cpp Transformation.h
         View.cpp View.h)
 

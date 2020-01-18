@@ -22,11 +22,6 @@ namespace model {
         float width{}, height{}; //width and height of the entity
         std::chrono::time_point<std::chrono::system_clock> last_shot = std::chrono::system_clock::now(); //last time the entity shot
         int health = 1;
-        bool frontline = false;
-
-        Entity() = default;
-        Entity(float x, float y);
-        Entity(float coordx, float coordy, float xSpeed, float ySpeed, int health, float width, float height);
 
         /**
          * moves the entity according to it's speed and the time that passed
@@ -60,7 +55,9 @@ namespace model {
          */
         [[nodiscard]] bool collidesWith(const Entity& e) const;
 
-    };
+    protected:
+        Entity(float coordx, float coordy, float xSpeed, float ySpeed, int health, float width, float height);
 
+    };
 }
 #endif //SPACEINVADERS_ENTITY_H

@@ -73,7 +73,7 @@ namespace view {
          * @param width of the window
          * @param height of the window
          */
-        View(int width, int height);
+        View(unsigned int width, unsigned int height);
 
         /**
          * Draws all sprites on screen

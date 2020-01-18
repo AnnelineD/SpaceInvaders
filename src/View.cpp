@@ -7,7 +7,7 @@
 #include <iostream>
 
 namespace view {
-    View::View(int width, int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
+    View::View(unsigned int width, unsigned int height) : window(sf::VideoMode(width, height), "Protect Mars against humans!") {
         if (!background_texture.loadFromFile("resources/mars_planeet.jpg"))
             std::cerr << "Continuing with black background\n";
 
