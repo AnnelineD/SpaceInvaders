@@ -20,7 +20,7 @@ namespace model {
          * @param xSpeed allows to read in horizontal speed from file in the future
          * @param xSpeed allows to read in delay between shots from file in the future
          */
-        explicit Player(int health = 3, float coordx = 0, float coordy = -2.5,
+        explicit Player(int health = 3, float coordx = 0, float coordy = -2.5f,
                         float xSpeed = .01, int shoot_delay = 1000);
 
         /**

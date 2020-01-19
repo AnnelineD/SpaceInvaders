@@ -44,14 +44,13 @@ namespace model {
         std::string FORM = reader.Get("shields", "form", "_########_/##########/##______##/##______##");
         int n_shields = (int) reader.GetInteger("shields", "number", 4);
 
-        std::tuple<std::vector<bool>, int> parser_output;
+        std::tuple<std::vector<bool>, int> parser_output = parseShieldForm("_########_/##########/##______##/##______##");
 
         try{
             parser_output = parseShieldForm(FORM);
         }
         catch (std::exception &e){
             std::cerr << e.what() << ", default shield form is used" << std::endl;
-            parser_output = parseShieldForm("_########_/##########/##______##/##______##");
         }
 
         auto [form, length] = parser_output;

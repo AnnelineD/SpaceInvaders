@@ -80,7 +80,7 @@ namespace view {
         text.setFont(font);
         text.setString(main_text);
         text.setCharacterSize((unsigned int) (30*650/text.getLocalBounds().width));
-        text.setFillColor(sf::Color(255, 255, 255, 255 - 150*elapsed_ratio));
+        text.setFillColor(sf::Color(255, 255, 255, sf::Uint8 (255 - 150*elapsed_ratio)));
         text.setPosition(100, (float) .5*window.getSize().y);
         window.draw(text);
 
@@ -88,7 +88,7 @@ namespace view {
         instruction.setFont(font);
         instruction.setString(side_text);
         instruction.setCharacterSize((unsigned int) (30*650/instruction.getLocalBounds().width));
-        instruction.setFillColor(sf::Color(255, 255, 255, 255 - 150*elapsed_ratio));
+        instruction.setFillColor(sf::Color(255, 255, 255, sf::Uint8 (255 - 150*elapsed_ratio)));
         instruction.setPosition(100, (float) .8*window.getSize().y);
         window.draw(instruction);
     }
