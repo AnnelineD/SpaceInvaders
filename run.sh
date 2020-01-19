@@ -1,3 +1,4 @@
+mkdir cmake-build-debug
 cd cmake-build-debug || exit
 cmake .. &&
 make install &&
