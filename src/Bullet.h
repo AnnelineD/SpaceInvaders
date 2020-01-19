@@ -10,10 +10,19 @@
 namespace model{
     class Bullet : public Entity {
     public:
-        explicit Bullet(float coordx = 0, float coordy = 0,
-                        float xSpeed = 0, float ySpeed = -0.003,
-                        int health = 1,
-                        float width = 0.05, float height = 0.1);
+        /**
+         * Bullets are always spawned from another entity: a player or an enemy
+         * with a certain signed speed
+         * @param who_fires
+         * @param ySpeed
+         */
+        explicit Bullet(const std::shared_ptr<Entity>& who_fires, float ySpeed);
+
+        /**
+         * Check if bullet is currently at top/bottom border (and should be destroyed)
+         * @return true if bullet at logic playing field border
+         */
+        bool at_border();
     };
 }
 

@@ -35,14 +35,14 @@ void SpaceInvadersGame::loadNextLevel() {
 
     view->enemy_sprites.clear();
     for (auto& i : model->enemies){
-        view->enemy_sprites.push_back(std::make_shared<view::EnemySprite>());
+        view->enemy_sprites.push_back(std::make_shared<view::Sprite>(view::Sprite::enemy));
         view->enemy_sprites.back()->entity = i;
         i->addObserver(view->enemy_sprites.back());
     }
 
     view->shieldblock_sprites.clear();
     for(auto& s : model->shields){
-        view->shieldblock_sprites.push_back(std::make_shared<view::ShieldSprite>());
+        view->shieldblock_sprites.push_back(std::make_shared<view::Sprite>(view::Sprite::shieldblock));
         view->shieldblock_sprites.back()->setEntity(s);
         s->addObserver(view->shieldblock_sprites.back());
     }

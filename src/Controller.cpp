@@ -16,23 +16,20 @@ namespace controller {
         //move player
         switch (event.key.code) {
             case sf::Keyboard::Left:
-                if (model->player->x + model->player->width/2 - .1*dt > -4) {
+                if (!model->player->would_reach_border(-dt))
                     model->player->move(-dt);
-                }
                 break;
             case sf::Keyboard::Right:
                 //check that player doesn't go out of view before moving
-                if (model->player->x - model->player->width/2 + .1*dt < 4) {
+                if (!model->player->would_reach_border(dt))
                     model->player->move(dt);
-                }
                 break;
             case sf::Keyboard::Up:
             case sf::Keyboard::Space:
                 // check time between shoots so that player does't have a machine gun
-                if (Stopwatch::Instance()->elapsed(model->player->last_shot) > 750) {
-                    model->p_bullets.push_back(
-                            std::make_shared<model::Bullet>(model->player->x, model->player->y, 0, 0.007));
-                    view->player_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
+                if (model->player->may_shoot()) {
+                    model->p_bullets.push_back(std::make_shared<model::Bullet>(model->player, 0.007));
+                    view->player_bullet_sprites.push_back(std::make_shared<view::Sprite>(view::Sprite::bullet));
                     view->player_bullet_sprites.back()->setEntity(model->p_bullets.back());
                     model->p_bullets.back()->addObserver(view->player_bullet_sprites.back());
 
@@ -69,8 +66,8 @@ namespace controller {
         for (const auto &b:p_bullets_) {
             b->move(dt);
             //bullet is removed when it is out of the screen
-            if (b->y > 3) {
-                b->setHealth(0);
+            if (b->at_border()) {
+                b->kill();
                 model->p_bullets.remove(b);
             }
         }
@@ -80,8 +77,8 @@ namespace controller {
         for (const auto &b:e_bullets_) {
             b->move(dt);
             //bullet is removed when it is out of the screen
-            if (b->y < -3) {
-                b->setHealth(0);
+            if (b->at_border()) {
+                b->kill();
                 model->e_bullets.remove(b);
             }
         }
@@ -93,8 +90,7 @@ namespace controller {
         }
 
         //the "enemy block" changes direction when the most left of right enemies hit the side of the screen
-        bool change_direction = model->enemies.back()->x + model->enemies.back()->width/2 >= 4
-                || model->enemies.front()->x - model->enemies.back()->width/2 <= -4;
+        bool change_direction = model->enemies.back()->at_border() || model->enemies.front()->at_border();
 
         for (auto &e:model->enemies) {
             if (change_direction) {
@@ -109,10 +105,9 @@ namespace controller {
         for (auto &e : model->enemies) {
             std::uniform_real_distribution<double> dist(0, 1000);
             //an enemy can't shoot twice in 2 seconds and has to be on the frontline to shoot
-            if (dist(mt) < 1 && Stopwatch::Instance()->elapsed(e->last_shot) > 2000 && e->frontline) {
-                model->e_bullets.push_back(std::make_shared<model::Bullet>(e->x, e->y));
-                model->e_bullets.back()->setSpeed(0, -0.003);
-                view->enemy_bullet_sprites.push_back(std::make_shared<view::BulletSprite>());
+            if (dist(mt) < 1 && e->may_shoot()) {
+                model->e_bullets.push_back(std::make_shared<model::Bullet>(e, -0.003));
+                view->enemy_bullet_sprites.push_back(std::make_shared<view::Sprite>(view::Sprite::bullet));
                 view->enemy_bullet_sprites.back()->entity = model->e_bullets.back();
                 model->e_bullets.back()->addObserver(view->enemy_bullet_sprites.back());
 
@@ -131,28 +126,22 @@ namespace controller {
             for (auto &e:enemies_) {
                 //check whether a bullet hits an enemy
                 if (e->collidesWith(*b)) {
-                    double x = e->x;
-                    e->setHealth(0);
+                    e->kill();
                     model->enemies.remove(e);
-                    //reverse iteration
-                    for (auto it = model->enemies.rbegin(); it != model->enemies.rend(); ++it) {
-                        if ((*it)->x == x) {
-                            (*it)->frontline = true;
-                            break;
-                        }
-                    }
-                    b->setHealth(0);
+
+                    e->delegate_frontline(model->enemies);
+                    b->kill();
                     model->p_bullets.remove(b);
                 }
             }
             for (auto &s:shields_) {
                 if (s->collidesWith(*b)) {
                     //remove shield block
-                    s->setHealth(0);
+                    s->kill();
                     model->shields.remove(s);
 
                     //remove bullet
-                    b->setHealth(0);
+                    b->kill();
                     model->p_bullets.remove(b);
                 }
             }
@@ -164,18 +153,19 @@ namespace controller {
 
         for (auto &b : e_bullets_) {
             if (model->player->collidesWith(*b)) {
-                model->player->setHealth(model->player->health - 1);
-                b->setHealth(0);
+                model->player->hurt();
+
+                b->kill();
                 model->e_bullets.remove(b);
             }
             for (auto &s:shields_) {
                 if (s->collidesWith(*b)) {
                     //remove shield block
-                    s->setHealth(0);
+                    s->kill();
                     model->shields.remove(s);
 
                     //remove bullet
-                    b->setHealth(0);
+                    b->kill();
                     model->e_bullets.remove(b);
                 }
             }

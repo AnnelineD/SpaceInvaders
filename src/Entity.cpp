@@ -15,11 +15,6 @@ namespace model{
         notify();
     }
 
-    void Entity::setSpeed(float new_vx, float new_vy) {
-        vx = new_vx;
-        vy = new_vy;
-    }
-
     void Entity::changeDirection() {
         vx = -vx;
     }
@@ -31,9 +26,8 @@ namespace model{
                 y + height > e.y);
     }
 
-    bool Entity::setHealth(int i) {
-        health = i;
+    void Entity::kill() {
+        health = 0;
         notify();
-        return (health >=1);
     }
 }

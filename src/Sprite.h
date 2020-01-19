@@ -14,6 +14,7 @@ namespace view {
      * the class sprite represents the view of different entities
      */
     class Sprite : public Observer {
+
     public:
         sf::Sprite sprite;
         sf::Texture sprite_texture; //the sprite gets a pointer to the background_texture, because it is destroyed if we don't save it
@@ -26,6 +27,10 @@ namespace view {
          */
         explicit Sprite(const std::string& filename);
 
+        static inline char player[] = "resources/spaceshipwide.png";
+        static inline char enemy[] = "resources/starship.png";
+        static inline char bullet[] = "resources/bullet.png";
+        static inline char shieldblock[] = "resources/shieldblock.png";
         /**
          * Sets the entity of the sprite, and sets the position of the sprite in pixel coordinates
          * @param e is a shared pointer to the entity that represents the sprite

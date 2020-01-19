@@ -12,8 +12,12 @@ namespace model {
             throw std::invalid_argument("Can't load " + filename + "\n");
         }
 
-        player = std::make_shared<Player>();
-        player->health = (int) reader.GetInteger("player", "health", 3);
+        int player_health = (int) reader.GetInteger("player", "health", 3);
+        if (player_health < 1 || player_health > 20) {
+            std::cerr << "player health" << player_health << " has to be between 1 and 20, value is set to 3\n";
+            player_health = 3;
+        }
+        player = std::make_shared<Player>(player_health);
 
         int x_enemies = (int) reader.GetInteger("enemies", "enemiesPerRow", 6);
         if (x_enemies > 20 || x_enemies < 1) {
@@ -66,19 +70,20 @@ namespace model {
     void Model::initializeEnemies(int x, int y, float vx, float vy) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                enemies.push_back(std::make_shared<Enemy>(-3.9 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003)));
+                enemies.push_back(std::make_shared<Enemy>(
+                        -3.9 + i * .5, 2.5 - j*.5, vx * .0002, vy * (-.00003),
+                        j == y - 1));
             }
-            enemies.back()->frontline = true;
         }
     }
 
     void Model::initializeShields(int n_shields, int length, const std::vector<bool>& form) {
         for (int n = 0; n < n_shields; n++) {
-            for (int i = 0; (long)i < form.size() / length; i++) { //vertical
+            for (int i = 0; (unsigned long)i < form.size() / length; i++) { //vertical
                 for (int j = 0; j < length; j++) { //horizontal
                     if (form[i * length + j]) {
                         shields.push_back(std::make_shared<ShieldBlock>(
-                                -3.5 + j * 0.1 + n * (length * .1 + (7 - n_shields * 0.1 * length) / (n_shields - 1)),
+                                -4 + j * 0.1 + (n * length * .1 + (n + 1)*(8 - n_shields * 0.1 * length) / (n_shields + 1)),
                                 -1 + i * -0.1));
                     }
                 }

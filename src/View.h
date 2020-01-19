@@ -14,25 +14,7 @@
 #include "Transformation.h"
 
 namespace view {
-    class PlayerSprite : public Sprite {
-    public:
-        PlayerSprite() : Sprite("resources/spaceshipwide.png"){};
-    };
 
-    class EnemySprite : public Sprite {
-    public:
-        EnemySprite() : Sprite("resources/starship.png"){};
-    };
-
-    class BulletSprite : public Sprite {
-    public:
-        BulletSprite() : Sprite("resources/bullet.png"){};
-    };
-
-    class ShieldSprite : public Sprite {
-    public:
-        ShieldSprite() : Sprite("resources/shieldblock.png") {};
-    };
 
     /**
      * Handles drawing and stores textures and fonts
@@ -62,10 +44,10 @@ namespace view {
     public:
         sf::RenderWindow window;
 
-        std::shared_ptr<Sprite> player_sprite = std::make_shared<PlayerSprite>();
+        std::shared_ptr<Sprite> player_sprite = std::make_shared<Sprite>(Sprite::player);
         std::list<std::shared_ptr<Sprite>> enemy_sprites;
         std::list<std::shared_ptr<Sprite>> player_bullet_sprites;
-        std::list<std::shared_ptr<Sprite>> enemy_bullet_sprites; //enemy bullets
+        std::list<std::shared_ptr<Sprite>> enemy_bullet_sprites;
         std::list<std::shared_ptr<Sprite>> shieldblock_sprites;
 
         /**
